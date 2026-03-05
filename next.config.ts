@@ -22,6 +22,16 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Redirect root to Ukrainian locale
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/ua',
+        permanent: true,
+      },
+    ];
+  },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
