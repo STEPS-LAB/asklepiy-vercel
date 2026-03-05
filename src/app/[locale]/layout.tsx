@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { ReactQueryProvider, LocaleProvider, AuthProvider } from '@/contexts';
+import { ReactQueryProvider, AuthProvider } from '@/contexts';
 import { Header, Footer } from '@/components/layout';
 import { AIAssistant } from '@/features/ai-assistant';
 import '../../styles/globals.css';
@@ -18,7 +18,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  
+
   // Validate that the incoming `locale` parameter is valid
   if (!['ua', 'en'].includes(locale)) {
     notFound();
@@ -31,16 +31,14 @@ export default async function LocaleLayout({
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
           <ReactQueryProvider>
-            <LocaleProvider>
-              <AuthProvider>
-                <div className="min-h-screen flex flex-col">
-                  <Header />
-                  <main className="flex-1 pt-20">{children}</main>
-                  <Footer />
-                  <AIAssistant />
-                </div>
-              </AuthProvider>
-            </LocaleProvider>
+            <AuthProvider>
+              <div className="min-h-screen flex flex-col">
+                <Header />
+                <main className="flex-1 pt-20">{children}</main>
+                <Footer />
+                <AIAssistant />
+              </div>
+            </AuthProvider>
           </ReactQueryProvider>
         </NextIntlClientProvider>
       </body>
