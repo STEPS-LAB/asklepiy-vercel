@@ -1,0 +1,335 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Medical Architecture 2026 Color Palette */
+  --color-medical-primary-50: #E8F1F5;
+  --color-medical-primary-100: #D1E3ED;
+  --color-medical-primary-200: #A5C7DB;
+  --color-medical-primary-300: #7AABCA;
+  --color-medical-primary-400: #4E8FB8;
+  --color-medical-primary-500: #2273A7;
+  --color-medical-primary-600: #1A5A85;
+  --color-medical-primary-700: #134163;
+  --color-medical-primary-800: #0F334E;
+  --color-medical-primary-900: #0A3D62;
+  --color-medical-primary-950: #051F33;
+  
+  --color-medical-accent-50: #E8F8F9;
+  --color-medical-accent-100: #D1F1F3;
+  --color-medical-accent-200: #A3E3E7;
+  --color-medical-accent-300: #75D5DB;
+  --color-medical-accent-400: #47C7CF;
+  --color-medical-accent-500: #19B9C3;
+  --color-medical-accent-600: #00A8B5;
+  --color-medical-accent-700: #008A96;
+  --color-medical-accent-800: #006C77;
+  --color-medical-accent-900: #004E58;
+  --color-medical-accent-950: #00303A;
+  
+  --color-medical-surface-50: #FAFBFC;
+  --color-medical-surface-100: #F5F7F9;
+  --color-medical-surface-200: #EBEFF2;
+  --color-medical-surface-300: #E1E6EB;
+  --color-medical-surface-400: #D7DDE4;
+  --color-medical-surface-500: #CDD4DC;
+  
+  --color-medical-text-primary: #0A3D62;
+  --color-medical-text-secondary: #4A5568;
+  --color-medical-text-tertiary: #718096;
+  --color-medical-text-inverse: #FFFFFF;
+  
+  --color-medical-status-success: #00A86B;
+  --color-medical-status-warning: #F59E0B;
+  --color-medical-status-error: #DC2626;
+  --color-medical-status-info: #00A8B5;
+  
+  /* Font Families */
+  --font-family-primary: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-family-secondary: 'Montserrat', system-ui, -apple-system, sans-serif;
+  
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Spacing - Luxury Whitespace */
+  --spacing-luxury-sm: 2rem;
+  --spacing-luxury-md: 4rem;
+  --spacing-luxury-lg: 6rem;
+  --spacing-luxury-xl: 8rem;
+  --spacing-luxury-2xl: 12rem;
+  
+  /* Border Radius - Sharp corners */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  
+  /* Box Shadows */
+  --shadow-medical-sm: 0 1px 2px 0 rgba(10, 61, 98, 0.05);
+  --shadow-medical-md: 0 4px 6px -1px rgba(10, 61, 98, 0.1), 0 2px 4px -1px rgba(10, 61, 98, 0.06);
+  --shadow-medical-lg: 0 10px 15px -3px rgba(10, 61, 98, 0.1), 0 4px 6px -2px rgba(10, 61, 98, 0.05);
+  --shadow-medical-xl: 0 20px 25px -5px rgba(10, 61, 98, 0.1), 0 10px 10px -5px rgba(10, 61, 98, 0.04);
+  --shadow-medical-glow: 0 0 20px rgba(0, 168, 181, 0.3);
+  --shadow-medical-glow-lg: 0 0 40px rgba(0, 168, 181, 0.4);
+  
+  /* Animation Durations */
+  --duration-400: 400ms;
+  --duration-500: 500ms;
+  --duration-600: 600ms;
+  --duration-700: 700ms;
+  
+  /* Z-Index Layers */
+  --z-index-overlay: 40;
+  --z-index-modal: 50;
+  --z-index-toast: 60;
+  --z-index-tooltip: 70;
+}
+
+/* Base Styles */
+@layer base {
+  :root {
+    --background: #FFFFFF;
+    --foreground: #0A3D62;
+  }
+
+  * {
+    @apply border-medical-surface-200;
+  }
+
+  html {
+    @apply scroll-smooth antialiased;
+    font-feature-settings: "cv11", "ss01";
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-medical-surface-50 text-medical-text-primary;
+    @apply font-light;
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-medical-accent-200 text-medical-primary-900;
+  }
+
+  /* Focus Styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-medical-accent-600 ring-offset-2 ring-offset-white;
+  }
+
+  /* Scrollbar - Custom styling */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-medical-surface-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-medical-primary-300 rounded-full;
+    
+    &:hover {
+      @apply bg-medical-primary-400;
+    }
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Glassmorphism */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md;
+    @apply border border-white/20;
+    @apply shadow-medical-md;
+  }
+  
+  .glass-dark {
+    @apply bg-medical-primary-900/90 backdrop-blur-md;
+    @apply border border-white/10;
+    @apply shadow-medical-lg;
+  }
+  
+  .glass-accent {
+    @apply bg-medical-accent-500/10 backdrop-blur-md;
+    @apply border border-medical-accent-500/20;
+    @apply shadow-medical-md;
+  }
+
+  /* Premium Button Styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center;
+    @apply px-6 py-3;
+    @apply bg-medical-primary-900 text-white;
+    @apply font-medium text-sm;
+    @apply rounded-sm;
+    @apply shadow-medical-md;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-medical-primary-800 hover:shadow-medical-lg hover:scale-102;
+    @apply active:scale-98;
+    @apply focus-visible:ring-2 focus-visible:ring-medical-accent-600 focus-visible:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center;
+    @apply px-6 py-3;
+    @apply bg-medical-accent-600 text-white;
+    @apply font-medium text-sm;
+    @apply rounded-sm;
+    @apply shadow-medical-md;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-medical-accent-700 hover:shadow-medical-lg hover:scale-102;
+    @apply active:scale-98;
+  }
+  
+  .btn-outline {
+    @apply inline-flex items-center justify-center;
+    @apply px-6 py-3;
+    @apply bg-transparent text-medical-primary-900;
+    @apply border-2 border-medical-primary-900;
+    @apply font-medium text-sm;
+    @apply rounded-sm;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-medical-primary-900 hover:text-white hover:scale-102;
+    @apply active:scale-98;
+  }
+  
+  .btn-ghost {
+    @apply inline-flex items-center justify-center;
+    @apply px-4 py-2;
+    @apply bg-transparent text-medical-text-secondary;
+    @apply font-medium text-sm;
+    @apply rounded-sm;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-medical-surface-100 hover:text-medical-primary-900;
+    @apply active:scale-98;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply bg-white;
+    @apply rounded-sm;
+    @apply shadow-medical-md;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:shadow-medical-lg;
+  }
+
+  .card-interactive {
+    @apply bg-white rounded-sm shadow-medical-md;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:shadow-medical-lg cursor-pointer;
+    @apply hover:scale-102;
+  }
+
+  /* Section Styles */
+  .section {
+    @apply py-luxury-md md:py-luxury-lg;
+    @apply px-4 md:px-8;
+  }
+
+  .section-title {
+    font-family: var(--font-montserrat), system-ui, sans-serif;
+    @apply font-medium;
+    @apply text-2xl md:text-3xl lg:text-4xl;
+    @apply text-medical-primary-900;
+    @apply mb-4;
+  }
+
+  .section-subtitle {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    @apply font-light;
+    @apply text-medical-text-secondary;
+    @apply text-base md:text-lg;
+    @apply max-w-2xl;
+  }
+
+  /* Input Styles */
+  .input {
+    @apply w-full px-4 py-3;
+    @apply bg-white border border-medical-surface-300;
+    @apply rounded-sm;
+    @apply text-medical-text-primary;
+    @apply placeholder-medical-text-tertiary;
+    @apply transition-all duration-300;
+    @apply focus:border-medical-accent-600 focus:ring-2 focus:ring-medical-accent-200;
+    @apply hover:border-medical-primary-400;
+  }
+
+  /* Link Styles */
+  .link {
+    @apply text-medical-accent-600;
+    @apply font-medium;
+    @apply transition-colors duration-300;
+    @apply hover:text-medical-accent-700;
+    @apply underline-offset-4;
+  }
+}
+
+/* Utility Styles */
+@layer utilities {
+  /* Text Gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-medical-primary-900 to-medical-accent-600;
+    @apply bg-clip-text text-transparent;
+  }
+  
+  /* Smooth Scroll */
+  .scroll-smooth-custom {
+    scroll-behavior: smooth;
+  }
+  
+  /* Hide Scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  
+  /* Text Balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Animation Delays */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  /* Shimmer Animation */
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+}

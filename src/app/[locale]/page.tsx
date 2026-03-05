@@ -1,0 +1,375 @@
+'use client';
+
+import { useLocale } from '@/contexts';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import Link from 'next/link';
+import { 
+  ArrowRight, 
+  Calendar, 
+  Clock, 
+  Shield, 
+  Heart, 
+  Stethoscope,
+  Microscope,
+  Users,
+  Award,
+  Phone
+} from 'lucide-react';
+import { Button, Card } from '@/components/ui';
+
+const services = [
+  {
+    icon: Stethoscope,
+    title: 'Терапія',
+    titleEn: 'Therapy',
+    description: 'Комплексна діагностика та лікування',
+    descriptionEn: 'Comprehensive diagnostics and treatment',
+    href: '/directions#therapy',
+  },
+  {
+    icon: Heart,
+    title: 'Кардіологія',
+    titleEn: 'Cardiology',
+    description: 'Сучасні методи лікування серця',
+    descriptionEn: 'Modern heart treatment methods',
+    href: '/directions#cardiology',
+  },
+  {
+    icon: Users,
+    title: 'Педіатрія',
+    titleEn: 'Pediatrics',
+    description: 'Турбота про здоров\'я дітей',
+    descriptionEn: 'Care for children\'s health',
+    href: '/directions#pediatrics',
+  },
+  {
+    icon: Microscope,
+    title: 'Діагностика',
+    titleEn: 'Diagnostics',
+    description: 'Точні аналізи та обстеження',
+    descriptionEn: 'Accurate tests and examinations',
+    href: '/analyses',
+  },
+];
+
+const stats = [
+  {
+    value: '20+',
+    label: 'років досвіду',
+    labelEn: 'years of experience',
+  },
+  {
+    value: '50+',
+    label: 'лікарів',
+    labelEn: 'doctors',
+  },
+  {
+    value: '100K+',
+    label: 'пацієнтів',
+    labelEn: 'patients',
+  },
+  {
+    value: '500+',
+    label: 'послуг',
+    labelEn: 'services',
+  },
+];
+
+const features = [
+  {
+    icon: Shield,
+    title: 'Безпека',
+    titleEn: 'Safety',
+    description: 'Найвищі стандарти безпеки пацієнтів',
+    descriptionEn: 'Highest patient safety standards',
+  },
+  {
+    icon: Award,
+    title: 'Якість',
+    titleEn: 'Quality',
+    description: 'Сертифіковані фахівці та обладнання',
+    descriptionEn: 'Certified specialists and equipment',
+  },
+  {
+    icon: Clock,
+    title: 'Доступність',
+    titleEn: 'Accessibility',
+    description: 'Зручний графік роботи без вихідних',
+    descriptionEn: 'Convenient schedule without weekends',
+  },
+  {
+    icon: Calendar,
+    title: 'Онлайн запис',
+    titleEn: 'Online Booking',
+    description: 'Запис на прийом в один клік',
+    descriptionEn: 'One-click appointment booking',
+  },
+];
+
+export default function HomePage() {
+  const { locale } = useLocale();
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+  
+  const heroY = useTransform(scrollY, [0, 500], [0, 150]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  return (
+    <>
+      {/* Hero Section */}
+      <section
+        ref={heroRef}
+        className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-medical-primary-50 via-white to-medical-accent-50"
+      >
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-20 right-0 w-96 h-96 bg-medical-accent-200 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-medical-primary-200 rounded-full blur-3xl" />
+        </div>
+
+        <div className="container mx-auto px-4 pt-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Content */}
+            <motion.div
+              style={{ y: heroY, opacity: heroOpacity }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            >
+              <motion.span
+                className="inline-block px-4 py-2 bg-medical-accent-100 text-medical-accent-700 rounded-sm text-sm font-medium mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                {locale === 'ua' ? 'Провідна клініка України' : 'Leading clinic of Ukraine'}
+              </motion.span>
+              
+              <motion.h1
+                className="font-secondary text-4xl md:text-5xl lg:text-6xl font-medium text-medical-primary-900 leading-tight mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                {locale === 'ua'
+                  ? 'Сучасна медицина з турботою про вас'
+                  : 'Modern Medicine with Care for You'}
+              </motion.h1>
+              
+              <motion.p
+                className="text-lg text-medical-text-secondary mb-8 max-w-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                {locale === 'ua'
+                  ? 'Провідна приватна клініка України з інноваційними підходами до лікування та діагностики'
+                  : "Ukraine's leading private clinic with innovative approaches to treatment and diagnostics"}
+              </motion.p>
+              
+              <motion.div
+                className="flex flex-wrap gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Link href="/booking">
+                  <Button size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
+                    {locale === 'ua' ? 'Записатися на прийом' : 'Book Appointment'}
+                  </Button>
+                </Link>
+                <a href="tel:+380412123456">
+                  <Button variant="outline" size="lg" leftIcon={<Phone className="w-4 h-4" />}>
+                    {locale === 'ua' ? 'Зателефонувати' : 'Call Now'}
+                  </Button>
+                </a>
+              </motion.div>
+            </motion.div>
+
+            {/* Hero Image */}
+            <motion.div
+              className="relative hidden lg:block"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <div className="relative z-10 rounded-sm overflow-hidden shadow-medical-xl">
+                <div className="aspect-[4/5] bg-gradient-to-br from-medical-primary-200 to-medical-accent-200 flex items-center justify-center">
+                  <Stethoscope className="w-32 h-32 text-medical-primary-900/20" />
+                </div>
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-full h-full bg-medical-accent-100 rounded-sm -z-10" />
+              <div className="absolute -bottom-4 -left-4 w-3/4 h-3/4 bg-medical-primary-100 rounded-sm -z-10" />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 bg-medical-primary-900">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                className="text-center"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <span className="block text-4xl md:text-5xl font-secondary font-medium text-white mb-2">
+                  {stat.value}
+                </span>
+                <span className="text-medical-surface-300">
+                  {locale === 'ua' ? stat.label : stat.labelEn}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="section bg-white">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="section-title">
+              {locale === 'ua' ? 'Напрямки медицини' : 'Medical Directions'}
+            </h2>
+            <p className="section-subtitle mx-auto">
+              {locale === 'ua'
+                ? 'Комплексний підхід до вашого здоров\'я'
+                : 'Comprehensive approach to your health'}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service, index) => (
+              <Link key={service.href} href={service.href}>
+                <Card
+                  className="p-6 h-full group cursor-pointer"
+                  interactive
+                >
+                  <motion.div
+                    className="w-14 h-14 bg-medical-accent-100 rounded-sm flex items-center justify-center mb-4 group-hover:bg-medical-accent-600 transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 400 }}
+                  >
+                    <service.icon className="w-7 h-7 text-medical-accent-600 group-hover:text-white transition-colors" />
+                  </motion.div>
+                  <h3 className="text-lg font-medium text-medical-primary-900 mb-2">
+                    {locale === 'ua' ? service.title : service.titleEn}
+                  </h3>
+                  <p className="text-medical-text-secondary text-sm">
+                    {locale === 'ua' ? service.description : service.descriptionEn}
+                  </p>
+                </Card>
+              </Link>
+            ))}
+          </div>
+
+          <motion.div
+            className="text-center mt-12"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <Link href="/directions">
+              <Button variant="outline">
+                {locale === 'ua' ? 'Всі напрямки' : 'All directions'}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="section bg-medical-surface-50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="section-title">
+              {locale === 'ua' ? 'Чому обирають нас' : 'Why choose us'}
+            </h2>
+            <p className="section-subtitle mx-auto">
+              {locale === 'ua'
+                ? 'Переваги нашої клініки'
+                : 'Advantages of our clinic'}
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                className="text-center p-6"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="w-16 h-16 bg-medical-primary-100 rounded-sm flex items-center justify-center mx-auto mb-4">
+                  <feature.icon className="w-8 h-8 text-medical-primary-900" />
+                </div>
+                <h3 className="text-lg font-medium text-medical-primary-900 mb-2">
+                  {locale === 'ua' ? feature.title : feature.titleEn}
+                </h3>
+                <p className="text-medical-text-secondary text-sm">
+                  {locale === 'ua' ? feature.description : feature.descriptionEn}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="section bg-gradient-to-r from-medical-primary-900 to-medical-primary-800">
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="text-center max-w-3xl mx-auto"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-secondary font-medium text-white mb-6">
+              {locale === 'ua'
+                ? 'Подбайте про своє здоров\'я вже сьогодні'
+                : 'Take care of your health today'}
+            </h2>
+            <p className="text-medical-surface-300 mb-8 text-lg">
+              {locale === 'ua'
+                ? 'Запишіться на консультацію до наших фахівців'
+                : 'Schedule a consultation with our specialists'}
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link href="/booking">
+                <Button variant="secondary" size="lg">
+                  {locale === 'ua' ? 'Записатися на прийом' : 'Book Appointment'}
+                </Button>
+              </Link>
+              <Link href="/doctors">
+                <Button variant="outline" size="lg" className="bg-transparent border-white text-white hover:bg-white hover:text-medical-primary-900">
+                  {locale === 'ua' ? 'Наші лікарі' : 'Our Doctors'}
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </>
+  );
+}
