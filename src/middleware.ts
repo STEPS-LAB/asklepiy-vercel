@@ -5,13 +5,11 @@ export default createMiddleware({
   locales,
   defaultLocale,
   localePrefix: 'as-needed',
-  localeDetection: true,
+  localeDetection: false,
 });
 
 export const config = {
   matcher: [
-    '/',
-    '/(ua|en)/:path*',
     '/((?!api|_next|_vercel|.*\\..*).*)',
   ],
 };
