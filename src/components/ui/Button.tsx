@@ -76,13 +76,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
+        type="button"
         className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
         disabled={disabled || isLoading}
         variants={buttonHoverVariants}
         initial="rest"
         whileHover={!isLoading && !disabled ? 'hover' : undefined}
         whileTap={!isLoading && !disabled ? 'tap' : undefined}
-        {...(props as HTMLMotionProps<'button'>)}
+        onClick={onClick}
+        // @ts-ignore - Framer Motion type conflict with drag events
+        {...props}
       >
         {/* Shine effect on hover */}
         {!isLoading && !disabled && (
@@ -188,7 +191,8 @@ export const IconButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       onClick={onClick}
-      {...(props as Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className' | 'variant' | 'size' | 'icon'>)}
+      // @ts-ignore - Framer Motion type conflict with drag events
+      {...props}
     >
       {isLoading ? (
         <motion.svg
@@ -234,7 +238,8 @@ export const TextButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
-      {...(props as Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className'>)}
+      // @ts-ignore - Framer Motion type conflict with drag events
+      {...props}
     >
       {isLoading ? (
         <motion.svg
