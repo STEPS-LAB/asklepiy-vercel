@@ -159,7 +159,7 @@ export const IconButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
-}>(({ className, icon, variant = 'ghost', size = 'md', isLoading, ...props }, ref) => {
+}>(({ className, icon, variant = 'ghost', size = 'md', isLoading, onClick, type = 'button', ...props }, ref) => {
   const sizeClasses = {
     sm: 'w-8 h-8 p-1.5',
     md: 'w-10 h-10 p-2',
@@ -176,6 +176,7 @@ export const IconButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
   return (
     <motion.button
       ref={ref}
+      type={type}
       className={cn(
         'inline-flex items-center justify-center rounded-sm transition-all duration-300',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-accent-600 focus-visible:ring-offset-2',
@@ -186,7 +187,8 @@ export const IconButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
       )}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      {...props}
+      onClick={onClick}
+      {...(props as Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className' | 'variant' | 'size' | 'icon'>)}
     >
       {isLoading ? (
         <motion.svg
@@ -217,10 +219,11 @@ IconButton.displayName = 'IconButton';
  */
 export const TextButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean;
-}>(({ className, children, isLoading, ...props }, ref) => {
+}>(({ className, children, isLoading, onClick, type = 'button', ...props }, ref) => {
   return (
     <motion.button
       ref={ref}
+      type={type}
       className={cn(
         'inline-flex items-center justify-center gap-2 text-medical-accent-600 font-medium',
         'hover:text-medical-accent-700 hover:underline hover:underline-offset-4',
@@ -230,7 +233,8 @@ export const TextButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
       )}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      {...props}
+      onClick={onClick}
+      {...(props as Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'className'>)}
     >
       {isLoading ? (
         <motion.svg
