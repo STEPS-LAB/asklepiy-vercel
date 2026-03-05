@@ -1,7 +1,7 @@
 'use client';
 
 import { forwardRef, type ButtonHTMLAttributes } from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { buttonHoverVariants, rotateVariants } from '@/lib/motion';
 import type { ButtonProps } from '@/types';
@@ -17,6 +17,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       children,
       disabled,
+      onClick,
+      type = 'button',
       ...props
     },
     ref
@@ -74,78 +76,71 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     return (
-      <motion.button
-        ref={ref}
-        type="button"
-        className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
-        disabled={disabled || isLoading}
+      <motion.div
+        className="inline-block"
         variants={buttonHoverVariants}
         initial="rest"
         whileHover={!isLoading && !disabled ? 'hover' : undefined}
         whileTap={!isLoading && !disabled ? 'tap' : undefined}
-        onClick={onClick}
-        // @ts-ignore - Framer Motion type conflict with drag events
-        {...props}
       >
-        {/* Shine effect on hover */}
-        {!isLoading && !disabled && (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
-            initial={{ x: '-100%' }}
-            whileHover={{ x: '100%' }}
-            transition={{ duration: 0.6 }}
-          />
-        )}
+        <button
+          ref={ref}
+          type={type}
+          className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
+          disabled={disabled || isLoading}
+          onClick={onClick}
+          {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
+        >
+          {/* Shine effect on hover */}
+          {!isLoading && !disabled && (
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none"
+              style={{ transform: 'translateX(-100%)' }}
+            />
+          )}
 
-        {isLoading ? (
-          <div className="flex items-center gap-2">
-            <motion.svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              variants={rotateVariants}
-              animate="rotate"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </motion.svg>
-            <span>{children}</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            {leftIcon && (
-              <motion.span
-                initial={{ scale: 1 }}
-                whileHover={{ scale: 1.2 }}
-                transition={{ type: 'spring', stiffness: 400 }}
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <motion.svg
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                variants={rotateVariants}
+                animate="rotate"
               >
-                {leftIcon}
-              </motion.span>
-            )}
-            <span>{children}</span>
-            {rightIcon && (
-              <motion.span
-                initial={{ scale: 1 }}
-                whileHover={{ scale: 1.2 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              >
-                {rightIcon}
-              </motion.span>
-            )}
-          </div>
-        )}
-      </motion.button>
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </motion.svg>
+              <span>{children}</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              {leftIcon && (
+                <span className="inline-flex">
+                  {leftIcon}
+                </span>
+              )}
+              <span>{children}</span>
+              {rightIcon && (
+                <span className="inline-flex">
+                  {rightIcon}
+                </span>
+              )}
+            </div>
+          )}
+        </button>
+      </motion.div>
     );
   }
 );
@@ -177,42 +172,45 @@ export const IconButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
   };
 
   return (
-    <motion.button
-      ref={ref}
-      type={type}
-      className={cn(
-        'inline-flex items-center justify-center rounded-sm transition-all duration-300',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-accent-600 focus-visible:ring-offset-2',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
-        sizeClasses[size],
-        variantClasses[variant],
-        className
-      )}
+    <motion.div
+      className="inline-block"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      onClick={onClick}
-      // @ts-ignore - Framer Motion type conflict with drag events
-      {...props}
     >
-      {isLoading ? (
-        <motion.svg
-          className="w-5 h-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          variants={rotateVariants}
-          animate="rotate"
-        >
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          />
-        </motion.svg>
-      ) : (
-        icon
-      )}
-    </motion.button>
+      <button
+        ref={ref}
+        type={type}
+        className={cn(
+          'inline-flex items-center justify-center rounded-sm transition-all duration-300',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-accent-600 focus-visible:ring-offset-2',
+          'disabled:opacity-50 disabled:cursor-not-allowed',
+          sizeClasses[size],
+          variantClasses[variant],
+          className
+        )}
+        onClick={onClick}
+        {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {isLoading ? (
+          <motion.svg
+            className="w-5 h-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            variants={rotateVariants}
+            animate="rotate"
+          >
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </motion.svg>
+        ) : (
+          icon
+        )}
+      </button>
+    </motion.div>
   );
 });
 
@@ -225,36 +223,39 @@ export const TextButton = forwardRef<HTMLButtonElement, ButtonHTMLAttributes<HTM
   isLoading?: boolean;
 }>(({ className, children, isLoading, onClick, type = 'button', ...props }, ref) => {
   return (
-    <motion.button
-      ref={ref}
-      type={type}
-      className={cn(
-        'inline-flex items-center justify-center gap-2 text-medical-accent-600 font-medium',
-        'hover:text-medical-accent-700 hover:underline hover:underline-offset-4',
-        'transition-all duration-300',
-        'disabled:opacity-50 disabled:cursor-not-allowed',
-        className
-      )}
+    <motion.div
+      className="inline-block"
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      // @ts-ignore - Framer Motion type conflict with drag events
-      {...props}
     >
-      {isLoading ? (
-        <motion.svg
-          className="w-4 h-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          variants={rotateVariants}
-          animate="rotate"
-        >
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-        </motion.svg>
-      ) : null}
-      {children}
-    </motion.button>
+      <button
+        ref={ref}
+        type={type}
+        className={cn(
+          'inline-flex items-center justify-center gap-2 text-medical-accent-600 font-medium',
+          'hover:text-medical-accent-700 hover:underline hover:underline-offset-4',
+          'transition-all duration-300',
+          'disabled:opacity-50 disabled:cursor-not-allowed',
+          className
+        )}
+        onClick={onClick}
+        {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {isLoading ? (
+          <motion.svg
+            className="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            variants={rotateVariants}
+            animate="rotate"
+          >
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </motion.svg>
+        ) : null}
+        {children}
+      </button>
+    </motion.div>
   );
 });
 
