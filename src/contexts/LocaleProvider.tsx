@@ -12,9 +12,9 @@ interface LocaleContextType {
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
 
-export function LocaleProvider({ children }: { children: React.ReactNode }) {
+export function LocaleProvider({ children, initialLocale }: { children: React.ReactNode; initialLocale?: Locale }) {
   const router = useRouter();
-  const [locale, setLocaleState] = useState<Locale>('ua');
+  const [locale, setLocaleState] = useState<Locale>(initialLocale || 'ua');
 
   useEffect(() => {
     // Get locale from URL or localStorage
@@ -27,7 +27,7 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const setLocale = useCallback((newLocale: Locale) => {
     setLocaleState(newLocale);
     localStorage.setItem('locale', newLocale);
-    
+
     // Update URL with new locale
     const currentPath = window.location.pathname;
     const pathWithoutLocale = currentPath.replace(/^\/(ua|en)/, '');

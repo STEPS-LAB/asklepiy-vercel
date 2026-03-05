@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { ReactQueryProvider, AuthProvider } from '@/contexts';
+import { ReactQueryProvider, LocaleProvider, AuthProvider } from '@/contexts';
 import { Header, Footer } from '@/components/layout';
 import { AIAssistant } from '@/features/ai-assistant';
 import '../../styles/globals.css';
@@ -31,14 +31,16 @@ export default async function LocaleLayout({
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
           <ReactQueryProvider>
-            <AuthProvider>
-              <div className="min-h-screen flex flex-col">
-                <Header />
-                <main className="flex-1 pt-20">{children}</main>
-                <Footer />
-                <AIAssistant />
-              </div>
-            </AuthProvider>
+            <LocaleProvider initialLocale={locale as 'ua' | 'en'}>
+              <AuthProvider>
+                <div className="min-h-screen flex flex-col">
+                  <Header />
+                  <main className="flex-1 pt-20">{children}</main>
+                  <Footer />
+                  <AIAssistant />
+                </div>
+              </AuthProvider>
+            </LocaleProvider>
           </ReactQueryProvider>
         </NextIntlClientProvider>
       </body>
