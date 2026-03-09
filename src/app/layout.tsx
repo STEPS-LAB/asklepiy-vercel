@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Montserrat } from 'next/font/google';
+import '../styles/globals.css';
 
 const inter = Inter({
   subsets: ['latin', 'cyrillic'],
@@ -82,7 +83,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="ua" className="scroll-smooth antialiased" suppressHydrationWarning>
       <body className={`${inter.variable} ${montserrat.variable}`}>
         {children}
       </body>

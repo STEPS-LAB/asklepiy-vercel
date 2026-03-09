@@ -27,23 +27,19 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="scroll-smooth">
-      <body className="antialiased">
-        <NextIntlClientProvider messages={messages}>
-          <ReactQueryProvider>
-            <LocaleProvider initialLocale={locale as 'ua' | 'en'}>
-              <AuthProvider>
-                <div className="min-h-screen flex flex-col">
-                  <Header />
-                  <main className="flex-1 pt-20">{children}</main>
-                  <Footer />
-                  <AIAssistant />
-                </div>
-              </AuthProvider>
-            </LocaleProvider>
-          </ReactQueryProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <ReactQueryProvider>
+        <LocaleProvider initialLocale={locale as 'ua' | 'en'}>
+          <AuthProvider>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-1 pt-20">{children}</main>
+              <Footer />
+              <AIAssistant />
+            </div>
+          </AuthProvider>
+        </LocaleProvider>
+      </ReactQueryProvider>
+    </NextIntlClientProvider>
   );
 }

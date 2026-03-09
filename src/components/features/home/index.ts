@@ -1,0 +1,10 @@
+export { ProgramsBanner } from './ProgramsBanner';
+export { LaboratorySearch } from './LaboratorySearch';
+export { DoctorsSection } from './DoctorsSection';
+export { TrustSection } from './TrustSection';
+export { DeclarationSection } from './DeclarationSection';
+export { GallerySection } from './GallerySection';
+export { ReviewsSection } from './ReviewsSection';
+export { NewsSection } from './NewsSection';
+export { CallbackSection } from './CallbackSection';
+export { PartnersSection } from './PartnersSection';

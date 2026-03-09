@@ -26,20 +26,20 @@ const config: Config = {
           900: '#0A3D62',
           950: '#051F33',
         },
-        // Accent - Medical Cyan
+        // Accent - Light Blue
         'medical-accent': {
-          DEFAULT: '#00A8B5',
-          50: '#E8F8F9',
-          100: '#D1F1F3',
-          200: '#A3E3E7',
-          300: '#75D5DB',
-          400: '#47C7CF',
-          500: '#19B9C3',
-          600: '#00A8B5',
-          700: '#008A96',
-          800: '#006C77',
-          900: '#004E58',
-          950: '#00303A',
+          DEFAULT: '#5DB8E8',
+          50: '#EAF8FD',
+          100: '#D5F1FB',
+          200: '#ADE3F7',
+          300: '#85D5F3',
+          400: '#5DC7EF',
+          500: '#35B9EB',
+          600: '#5DB8E8',
+          700: '#2FA3D4',
+          800: '#2580A8',
+          900: '#1C5D7C',
+          950: '#113A4F',
         },
         // Surface - Pure White & Neutrals
         'medical-surface': {
@@ -63,7 +63,7 @@ const config: Config = {
           success: '#00A86B',
           warning: '#F59E0B',
           error: '#DC2626',
-          info: '#00A8B5',
+          info: '#5DB8E8',
         },
       },
       
@@ -159,8 +159,8 @@ const config: Config = {
         'medical-md': '0 4px 6px -1px rgba(10, 61, 98, 0.1), 0 2px 4px -1px rgba(10, 61, 98, 0.06)',
         'medical-lg': '0 10px 15px -3px rgba(10, 61, 98, 0.1), 0 4px 6px -2px rgba(10, 61, 98, 0.05)',
         'medical-xl': '0 20px 25px -5px rgba(10, 61, 98, 0.1), 0 10px 10px -5px rgba(10, 61, 98, 0.04)',
-        'medical-glow': '0 0 20px rgba(0, 168, 181, 0.3)',
-        'medical-glow-lg': '0 0 40px rgba(0, 168, 181, 0.4)',
+        'medical-glow': '0 0 20px rgba(93, 184, 232, 0.3)',
+        'medical-glow-lg': '0 0 40px rgba(93, 184, 232, 0.4)',
       },
       
       // Transition - Smooth interactions

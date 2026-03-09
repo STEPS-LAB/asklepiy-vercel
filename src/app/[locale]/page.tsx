@@ -4,12 +4,12 @@ import { useLocale } from '@/contexts';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import Link from 'next/link';
-import { 
-  ArrowRight, 
-  Calendar, 
-  Clock, 
-  Shield, 
-  Heart, 
+import {
+  ArrowRight,
+  Calendar,
+  Clock,
+  Shield,
+  Heart,
   Stethoscope,
   Microscope,
   Users,
@@ -17,6 +17,18 @@ import {
   Phone
 } from 'lucide-react';
 import { Button, Card } from '@/components/ui';
+import {
+  ProgramsBanner,
+  LaboratorySearch,
+  DoctorsSection,
+  TrustSection,
+  DeclarationSection,
+  GallerySection,
+  ReviewsSection,
+  NewsSection,
+  CallbackSection,
+  PartnersSection,
+} from '@/components/features/home';
 
 const services = [
   {
@@ -335,6 +347,36 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Programs Banner Section */}
+      <ProgramsBanner />
+
+      {/* Laboratory Search Section */}
+      <LaboratorySearch />
+
+      {/* Doctors Section */}
+      <DoctorsSection />
+
+      {/* Trust Section */}
+      <TrustSection />
+
+      {/* Declaration Section */}
+      <DeclarationSection />
+
+      {/* Gallery Section */}
+      <GallerySection />
+
+      {/* Reviews Section */}
+      <ReviewsSection />
+
+      {/* News Section */}
+      <NewsSection />
+
+      {/* Partners Section */}
+      <PartnersSection />
+
+      {/* Callback Section */}
+      <CallbackSection />
 
       {/* CTA Section */}
       <section className="section bg-gradient-to-r from-medical-primary-900 to-medical-primary-800">
