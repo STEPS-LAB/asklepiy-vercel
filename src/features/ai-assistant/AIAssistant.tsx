@@ -95,10 +95,31 @@ export function AIAssistant() {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Close chat on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        chatWindowRef.current &&
+        !chatWindowRef.current.contains(event.target as Node)
+      ) {
+        const floatingButton = document.querySelector('[data-chatbot-button]');
+        if (floatingButton && !floatingButton.contains(event.target as Node)) {
+          setIsOpen(false);
+          setIsMinimized(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
 
   useEffect(() => {
     scrollToBottom();
@@ -220,6 +241,7 @@ export function AIAssistant() {
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1, type: 'spring', stiffness: 400, damping: 20 }}
+        data-chatbot-button
       >
         <motion.button
           onClick={toggleOpen}
@@ -228,7 +250,8 @@ export function AIAssistant() {
             'bg-gradient-to-br from-medical-accent-600 to-medical-accent-500',
             'hover:from-medical-accent-500 hover:to-medical-accent-400',
             isOpen && 'from-medical-primary-900 to-medical-primary-800 hover:from-medical-primary-800 hover:to-medical-primary-700',
-            'transition-all duration-500'
+            'transition-all duration-500',
+            'flex items-center justify-center'
           )}
           whileHover={{ scale: 1.1, rotate: 5 }}
           whileTap={{ scale: 0.95 }}
@@ -266,6 +289,7 @@ export function AIAssistant() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={chatWindowRef}
             className="fixed bottom-24 right-6 w-full max-w-md z-toast"
             variants={modalVariants}
             initial="hidden"
@@ -301,7 +325,7 @@ export function AIAssistant() {
                 <div className="flex items-center gap-1">
                   <motion.button
                     onClick={() => setIsMinimized(!isMinimized)}
-                    className="p-2 hover:bg-white/10 rounded-sm transition-colors"
+                    className="p-2 hover:bg-white/10 rounded-sm transition-colors flex items-center justify-center"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -309,7 +333,7 @@ export function AIAssistant() {
                   </motion.button>
                   <motion.button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 hover:bg-white/10 rounded-sm transition-colors"
+                    className="p-2 hover:bg-white/10 rounded-sm transition-colors flex items-center justify-center"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -448,7 +472,7 @@ export function AIAssistant() {
                       <Button
                         onClick={handleSend}
                         size="sm"
-                        className="w-11 h-11 p-0 rounded-full"
+                        className="w-11 h-11 p-0 rounded-full flex items-center justify-center"
                         disabled={!inputValue.trim() || isLoading}
                       >
                         <motion.div initial={{ scale: 1 }} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }}>

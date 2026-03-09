@@ -38,7 +38,7 @@ const doctorsData: Record<string, {
       'Інтернатура з терапії',
     ],
     certifications: ['Сімейна медицина', 'УЗД діагностика'],
-    languages: ['Українська', 'Русский', 'English'],
+    languages: ['Українська', 'English'],
     priceRange: { min: 600, max: 1000 },
   },
   'shevchenko-iryna': {
@@ -56,7 +56,7 @@ const doctorsData: Record<string, {
       'Клінічна ординатура з кардіології',
     ],
     certifications: ['Кардіологія', 'Функціональна діагностика', 'Ехокардіографія'],
-    languages: ['Українська', 'Русский'],
+    languages: ['Українська'],
     priceRange: { min: 800, max: 1500 },
   },
 };

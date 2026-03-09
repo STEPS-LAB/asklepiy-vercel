@@ -32,6 +32,7 @@ export function CallbackSection() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
             <motion.div
+              className="flex flex-col"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -77,7 +78,7 @@ export function CallbackSection() {
               </div>
 
               {/* Working Hours */}
-              <div className="bg-white p-6 rounded-sm shadow-medical-md">
+              <div className="bg-white p-6 rounded-sm shadow-medical-md mt-auto">
                 <h4 className="font-medium text-medical-primary-900 mb-4">
                   {locale === 'ua' ? 'Графік роботи:' : 'Working Hours:'}
                 </h4>
@@ -143,8 +144,11 @@ export function CallbackSection() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" leftIcon={<Send className="w-4 h-4" />} className="w-full">
-                    {locale === 'ua' ? 'Надіслати запитання' : 'Send Question'}
+                  <Button type="submit" size="lg" className="w-full">
+                    <div className="flex items-center justify-center gap-2">
+                      <Send className="w-4 h-4" />
+                      <span>{locale === 'ua' ? 'Надіслати запитання' : 'Send Question'}</span>
+                    </div>
                   </Button>
                 </form>
               ) : (
