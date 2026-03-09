@@ -143,49 +143,26 @@ export default function HomePage() {
         <div className="container mx-auto px-4 pt-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Content */}
-            <motion.div
+            <div
               style={{ y: heroY, opacity: heroOpacity }}
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <motion.span
-                className="inline-block px-4 py-2 bg-medical-accent-100 text-medical-accent-700 rounded-sm text-sm font-medium mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
+              <span className="inline-block px-4 py-2 bg-medical-accent-100 text-medical-accent-700 rounded-sm text-sm font-medium mb-6">
                 {locale === 'ua' ? 'Провідний медичний центр України' : 'Leading medical center of Ukraine'}
-              </motion.span>
-              
-              <motion.h1
-                className="font-secondary text-4xl md:text-5xl lg:text-6xl font-medium text-medical-primary-900 leading-tight mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
+              </span>
+
+              <h1 className="font-secondary text-4xl md:text-5xl lg:text-6xl font-medium text-medical-primary-900 leading-tight mb-6">
                 {locale === 'ua'
                   ? 'Сучасна медицина з турботою про вас'
                   : 'Modern Medicine with Care for You'}
-              </motion.h1>
-              
-              <motion.p
-                className="text-lg text-medical-text-secondary mb-8 max-w-xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
+              </h1>
+
+              <p className="text-lg text-medical-text-secondary mb-8 max-w-xl">
                 {locale === 'ua'
                   ? 'Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики'
                   : "Ukraine's leading private clinic with innovative approaches to treatment and diagnostics"}
-              </motion.p>
-              
-              <motion.div
-                className="flex flex-wrap gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
+              </p>
+
+              <div className="flex flex-wrap gap-4">
                 <Link href="/booking">
                   <Button size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
                     {locale === 'ua' ? 'Записатися на прийом' : 'Book Appointment'}
@@ -196,16 +173,11 @@ export default function HomePage() {
                     {locale === 'ua' ? 'Зателефонувати' : 'Call Now'}
                   </Button>
                 </a>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             {/* Hero Image */}
-            <motion.div
-              className="relative hidden lg:block"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
+            <div className="relative hidden lg:block">
               <div className="relative z-10 rounded-sm overflow-hidden shadow-medical-xl">
                 <div className="aspect-[4/5] bg-gradient-to-br from-medical-primary-200 to-medical-accent-200 flex items-center justify-center">
                   <Stethoscope className="w-32 h-32 text-medical-primary-900/20" />
@@ -214,7 +186,7 @@ export default function HomePage() {
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-full h-full bg-medical-accent-100 rounded-sm -z-10" />
               <div className="absolute -bottom-4 -left-4 w-3/4 h-3/4 bg-medical-primary-100 rounded-sm -z-10" />
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
