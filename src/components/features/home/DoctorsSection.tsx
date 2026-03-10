@@ -129,14 +129,18 @@ export function DoctorsSection() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-2">
-                  <Link href={`/doctors/${doctor.id}`} className="flex-1">
-                    <Button variant="outline" className="w-full">
-                      {locale === 'ua' ? 'Переглянути' : 'View Profile'}
+                <div className="flex gap-2 mt-4">
+                  <Link href={`/doctors/${doctor.id}`} className="flex-1 min-w-0">
+                    <Button variant="outline" className="w-full text-sm px-2 py-2 h-auto min-h-[44px]">
+                      <span className="truncate">
+                        {locale === 'ua' ? 'Переглянути' : 'View Profile'}
+                      </span>
                     </Button>
                   </Link>
-                  <Button className="w-full" onClick={() => setIsBookingOpen(true)}>
-                    {locale === 'ua' ? 'Записатись' : 'Book'}
+                  <Button className="flex-1 w-full text-sm px-2 py-2 h-auto min-h-[44px]">
+                    <span className="truncate">
+                      {locale === 'ua' ? 'Записатись' : 'Book'}
+                    </span>
                   </Button>
                 </div>
               </div>
