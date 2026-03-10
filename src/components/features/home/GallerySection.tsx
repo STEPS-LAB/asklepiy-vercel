@@ -3,7 +3,7 @@
 import { useLocale } from '@/contexts';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Maximize2, X } from 'lucide-react';
+import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui';
 
 const galleryImages = [
@@ -15,9 +15,25 @@ const galleryImages = [
   { id: 6, alt: { ua: 'Зона очікування', en: 'Waiting Area' }, color: 'from-medical-accent-300 to-medical-primary-200' },
 ];
 
+const VISIBLE_IMAGES = 3;
+
 export function GallerySection() {
   const { locale } = useLocale();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const [startIndex, setStartIndex] = useState(0);
+
+  const visibleImages = galleryImages.slice(startIndex, startIndex + VISIBLE_IMAGES);
+
+  const handlePrev = () => {
+    setStartIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNext = () => {
+    setStartIndex((prev) => Math.min(galleryImages.length - VISIBLE_IMAGES, prev + 1));
+  };
+
+  const canGoPrev = startIndex > 0;
+  const canGoNext = startIndex < galleryImages.length - VISIBLE_IMAGES;
 
   return (
     <section className="section bg-white">
@@ -29,7 +45,7 @@ export function GallerySection() {
           viewport={{ once: true }}
         >
           <h2 className="section-title">
-            {locale === 'ua' ? 'Галерея клініки' : 'Clinic Gallery'}
+            {locale === 'ua' ? 'Галерея' : 'Gallery'}
           </h2>
           <p className="section-subtitle mx-auto">
             {locale === 'ua'
@@ -38,29 +54,58 @@ export function GallerySection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {galleryImages.map((image, index) => (
-            <motion.div
-              key={image.id}
-              className="relative group cursor-pointer overflow-hidden rounded-sm"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              onClick={() => setSelectedImage(image.id)}
+        {/* Gallery Grid with Navigation */}
+        <div className="relative">
+          <div className="grid grid-cols-3 gap-4">
+            {visibleImages.map((image, index) => (
+              <motion.div
+                key={image.id}
+                className="relative group cursor-pointer overflow-hidden rounded-sm"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                onClick={() => setSelectedImage(image.id)}
+              >
+                <div className={`aspect-square bg-gradient-to-br ${image.color} flex items-center justify-center`}>
+                  <Maximize2 className="w-12 h-12 text-medical-primary-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-medical-primary-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <span className="text-white text-sm font-medium">
+                    {locale === 'ua' ? image.alt.ua : image.alt.en}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Navigation Arrows */}
+          <div className="absolute -top-20 right-0 flex gap-2">
+            <button
+              onClick={handlePrev}
+              disabled={!canGoPrev}
+              className={`w-12 h-12 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
+                !canGoPrev
+                  ? 'opacity-30 cursor-not-allowed'
+                  : 'hover:bg-medical-accent-500 hover:text-white'
+              }`}
             >
-              <div className={`aspect-square bg-gradient-to-br ${image.color} flex items-center justify-center`}>
-                <Maximize2 className="w-12 h-12 text-medical-primary-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-              
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-medical-primary-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                <span className="text-white text-sm font-medium">
-                  {locale === 'ua' ? image.alt.ua : image.alt.en}
-                </span>
-              </div>
-            </motion.div>
-          ))}
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={!canGoNext}
+              className={`w-12 h-12 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
+                !canGoNext
+                  ? 'opacity-30 cursor-not-allowed'
+                  : 'hover:bg-medical-accent-500 hover:text-white'
+              }`}
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
         </div>
 
         {/* Lightbox Modal */}
@@ -78,25 +123,12 @@ export function GallerySection() {
             >
               <X className="w-8 h-8" />
             </button>
-            
+
             <div className={`w-full max-w-4xl aspect-video bg-gradient-to-br ${galleryImages.find(img => img.id === selectedImage)?.color} rounded-sm flex items-center justify-center`}>
               <Maximize2 className="w-24 h-24 text-medical-primary-900/20" />
             </div>
           </motion.div>
         )}
-
-        <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          <a href="/gallery">
-            <Button variant="outline">
-              {locale === 'ua' ? 'Переглянути всі фото' : 'View All Photos'}
-            </Button>
-          </a>
-        </motion.div>
       </div>
     </section>
   );
