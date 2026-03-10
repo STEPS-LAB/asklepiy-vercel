@@ -19,16 +19,19 @@ const VISIBLE_PARTNERS_MOBILE = 3;
 // Animation variants for smooth sliding
 const sliderVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 100 : -100,
+    x: direction > 0 ? 30 : -30,
     opacity: 0,
+    scale: 0.98,
   }),
   center: {
     x: 0,
     opacity: 1,
+    scale: 1,
   },
   exit: (direction: number) => ({
-    x: direction > 0 ? -100 : 100,
+    x: direction > 0 ? -30 : 30,
     opacity: 0,
+    scale: 0.98,
   }),
 };
 
@@ -136,20 +139,30 @@ export function PartnersSection() {
                 animate="center"
                 exit="exit"
                 transition={{
-                  x: { type: 'spring', stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.3 },
+                  x: { type: 'spring', stiffness: 200, damping: 25, mass: 1 },
+                  opacity: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
+                  scale: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
                 }}
-                style={{ willChange: 'transform, opacity' }}
+                style={{ 
+                  willChange: 'transform, opacity',
+                  transform: 'translateZ(0)',
+                  WebkitTransform: 'translateZ(0)',
+                }}
               >
                 {visiblePartners.map((partner, index) => (
                   <motion.div
                     key={partner.id}
                     className="flex items-center justify-center p-6 bg-medical-surface-50 rounded-sm hover:bg-medical-accent-50 transition-colors"
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    transition={{ delay: index * 0.05, duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                     whileHover={{ scale: 1.05 }}
+                    style={{
+                      transform: 'translateZ(0)',
+                      WebkitTransform: 'translateZ(0)',
+                      backfaceVisibility: 'hidden',
+                      WebkitBackfaceVisibility: 'hidden',
+                    }}
                   >
                     <div className="text-center">
                       <Building2 className="w-12 h-12 text-medical-accent-400 mx-auto mb-2" />
