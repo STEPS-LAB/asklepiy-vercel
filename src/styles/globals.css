@@ -109,6 +109,8 @@
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     width: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
   }
 
   *, *::before, *::after {
@@ -121,6 +123,17 @@
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* iOS Safari optimizations */
+  @supports (-webkit-touch-callout: none) {
+    html {
+      height: -webkit-fill-available;
+    }
+    body {
+      min-height: -webkit-fill-available;
+    }
   }
 
   /* Selection */
@@ -288,12 +301,12 @@
     @apply bg-gradient-to-r from-medical-primary-900 to-medical-accent-600;
     @apply bg-clip-text text-transparent;
   }
-  
+
   /* Smooth Scroll */
   .scroll-smooth-custom {
     scroll-behavior: smooth;
   }
-  
+
   /* Hide Scrollbar */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -308,7 +321,7 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
   /* Animation Delays */
   .animation-delay-100 {
     animation-delay: 100ms;
@@ -338,5 +351,33 @@
     100% {
       background-position: 1000px 0;
     }
+  }
+
+  /* iOS Safari Performance Optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  .will-change-auto {
+    will-change: auto;
+  }
+
+  /* Hardware acceleration */
+  .transform-gpu {
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Prevent iOS zoom on input focus */
+  .input-ios {
+    font-size: 16px !important;
+  }
+
+  /* Smooth scrolling for iOS */
+  .overflow-scroll-touch {
+    -webkit-overflow-scrolling: touch;
   }
 }
