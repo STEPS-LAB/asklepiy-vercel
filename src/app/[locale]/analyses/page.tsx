@@ -316,9 +316,6 @@ function ServiceBookingModal({ isOpen, onClose, serviceName, serviceNameEn, pric
     if (field === 'firstName' || field === 'lastName') {
       const filteredValue = value.replace(/[0-9]/g, '');
       setFormData((prev) => ({ ...prev, [field]: filteredValue }));
-    } else if (field === 'phone') {
-      const filteredValue = value.replace(/[^0-9+\-()_ ]/g, '');
-      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
     } else {
       setFormData((prev) => ({ ...prev, [field]: value }));
     }
@@ -523,19 +520,14 @@ function ServiceBookingModal({ isOpen, onClose, serviceName, serviceNameEn, pric
                         </div>
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-medical-text-primary mb-1">
-                          {locale === 'ua' ? 'Телефон *' : 'Phone *'}
-                        </label>
                         <Input
                           type="tel"
-                          placeholder={locale === 'ua' ? '+380(__)___-__-__' : '+380(__)___-__-__'}
+                          label={locale === 'ua' ? 'Телефон *' : 'Phone *'}
                           value={formData.phone}
                           onChange={(e) => handleInputChange('phone', e.target.value)}
-                          className={cn('h-10', errors.phone && 'border-medical-status-error')}
+                          error={errors.phone}
+                          placeholder="+38 (0XX) XXX-XX-XX"
                         />
-                        {errors.phone && (
-                          <p className="mt-1 text-xs text-medical-status-error">{errors.phone}</p>
-                        )}
                       </div>
                       <div>
                         <label className="block text-xs font-medium text-medical-text-primary mb-1">

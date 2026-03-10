@@ -458,10 +458,10 @@ export default function WayPage() {
                   />
                   <Input
                     type="tel"
-                    placeholder="+38 (___) ___-__-__"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
+                    placeholder="+38 (0XX) XXX-XX-XX"
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 focus:ring-white/20"
                   />
                   <Input
@@ -536,11 +536,12 @@ export default function WayPage() {
                   required
                 />
                 <Input
+                  type="tel"
                   label={locale === 'ua' ? 'Номер телефону' : 'Phone number'}
-                  placeholder="+38 (___) ___-__-__"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   required
+                  placeholder="+38 (0XX) XXX-XX-XX"
                 />
                 <div>
                   <label className="block text-sm font-medium text-medical-text-primary mb-2">

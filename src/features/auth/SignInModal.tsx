@@ -191,10 +191,10 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
         <Input
           type="tel"
           label={locale === 'ua' ? 'Телефон' : 'Phone'}
-          placeholder="+380 XX XXX XX XX"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           error={error}
+          placeholder="+38 (0XX) XXX-XX-XX"
         />
       )}
 

@@ -4,7 +4,7 @@ import { useLocale } from '@/contexts';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Phone, Mail, Send, CheckCircle } from 'lucide-react';
-import { Button, Input, Modal } from '@/components/ui';
+import { Button, Modal, Input } from '@/components/ui';
 
 export function CallbackSection() {
   const { locale } = useLocale();
@@ -118,15 +118,13 @@ export function CallbackSection() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-medical-primary-900 mb-2">
-                      {locale === 'ua' ? 'Номер телефону' : 'Phone Number'}
-                    </label>
                     <Input
                       type="tel"
+                      label={locale === 'ua' ? 'Номер телефону' : 'Phone Number'}
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+38 (___) ___-__-__"
                       required
+                      placeholder="+38 (0XX) XXX-XX-XX"
                     />
                   </div>
 

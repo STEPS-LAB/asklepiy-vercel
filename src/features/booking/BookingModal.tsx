@@ -141,16 +141,11 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     if (field === 'firstName' || field === 'lastName') {
       const filteredValue = value.replace(/[0-9]/g, '');
       setFormData((prev) => ({ ...prev, [field]: filteredValue }));
-    } 
-    // Block letters in phone field
-    else if (field === 'phone') {
-      const filteredValue = value.replace(/[^0-9+\-()_ ]/g, '');
-      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
-    } 
+    }
     else {
       setFormData((prev) => ({ ...prev, [field]: value }));
     }
-    
+
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: '' }));
     }
@@ -317,7 +312,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-medical-text-tertiary" />
                   <Input
                     type="tel"
-                    placeholder={locale === 'ua' ? '+380(__)___-__-__' : '+380(__)___-__-__'}
+                    placeholder="+380"
                     value={formData.phone}
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                     className={cn('pl-10', errors.phone && 'border-medical-status-error')}

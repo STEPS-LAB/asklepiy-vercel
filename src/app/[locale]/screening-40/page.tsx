@@ -18,7 +18,7 @@ import {
   Calendar,
   UserCheck,
 } from 'lucide-react';
-import { Button } from '@/components/ui';
+import { Button, Input } from '@/components/ui';
 
 const locations = [
   { id: 1, address: 'м. Житомир, вул. Покровська, 31', addressEn: 'Zhytomyr, Pokrovska St, 31' },
@@ -461,16 +461,13 @@ export default function Screening40Page() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-medical-primary-900 mb-2">
-                      {locale === 'ua' ? 'Номер телефону' : 'Phone Number'}
-                    </label>
-                    <input
+                    <Input
                       type="tel"
+                      label={locale === 'ua' ? 'Номер телефону' : 'Phone Number'}
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+38 (___) ___-__-__"
                       required
-                      className="w-full px-4 py-3 border border-medical-surface-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-medical-accent-500"
+                      placeholder="+38 (0XX) XXX-XX-XX"
                     />
                   </div>
 

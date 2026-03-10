@@ -22,16 +22,7 @@ import {
 } from 'lucide-react';
 import { Button, Card, Input } from '@/components/ui';
 import { DoctorsSection } from '@/components/features/home/DoctorsSection';
-
-const locations = [
-  { id: 1, address: 'м. Житомир, вул. Покровська, 31', addressEn: 'Zhytomyr, Pokrovska St, 31' },
-  { id: 2, address: 'м. Житомир, вул. Вітрука, 2а', addressEn: 'Zhytomyr, Vitruka St, 2a' },
-  { id: 3, address: 'м. Житомир, вул. Шевченка, 14', addressEn: 'Zhytomyr, Shevchenka St, 14' },
-  { id: 4, address: 'м. Житомир, вул. Є. Рихліка, 11а', addressEn: 'Zhytomyr, Y. Rykhlika St, 11a' },
-  { id: 5, address: 'м. Житомир, пр-т. Миру, 21', addressEn: 'Zhytomyr, Myru Ave, 21' },
-  { id: 6, address: 'м. Житомир, проїзд Шпаковський, 18', addressEn: 'Zhytomyr, Shpakivskyi Passage, 18' },
-  { id: 7, address: 'м. Бердичів, вул. Житомирська, 46/1', addressEn: 'Berdychiv, Zhytomyrska St, 46/1' },
-];
+import { BookingModal } from '@/features/booking';
 
 const freeServices = [
   {
@@ -86,7 +77,6 @@ const freeServices = [
 
 export default function AsklepiyRodynaPage() {
   const { locale } = useLocale();
-  const [selectedLocation, setSelectedLocation] = useState(locations[0].id);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -95,6 +85,16 @@ export default function AsklepiyRodynaPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  const handleInputChange = (field: string, value: string) => {
+    if (field === 'name' || field === 'doctor') {
+      const filteredValue = value.replace(/[0-9]/g, '');
+      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
+    } else {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,9 +142,9 @@ export default function AsklepiyRodynaPage() {
                   {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
                 </Button>
               </Link>
-              <a href="https://t.me/asklepiy_family" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" size="lg">
-                  Telegram-канал
+              <a href="https://t.me/asklepiy_rodyna" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="lg" leftIcon={<img src="/images/tg-logo.svg" alt="Telegram" className="w-5 h-5" />}>
+                  Telegram-канал сімейної медицини
                 </Button>
               </a>
             </div>
@@ -171,7 +171,7 @@ export default function AsklepiyRodynaPage() {
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* With Declaration */}
             <motion.div
-              className="bg-gradient-to-br from-medical-primary-900 to-medical-primary-800 text-white p-8 rounded-sm"
+              className="bg-gradient-to-br from-medical-primary-900 to-medical-primary-800 text-white p-8 rounded-sm flex flex-col"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -187,7 +187,7 @@ export default function AsklepiyRodynaPage() {
                   ? 'Безкоштовні послуги за програмою медичних гарантій НСЗУ. Первинна медична допомога.'
                   : 'Free services under NSZU medical guarantees program. Primary medical care.'}
               </p>
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3 mb-6 flex-grow">
                 {[
                   { ua: 'Надійний медичний партнер біля дому', en: 'Reliable medical partner near home' },
                   { ua: 'Доказова медицина та сучасні протоколи', en: 'Evidence-based medicine & modern protocols' },
@@ -202,16 +202,18 @@ export default function AsklepiyRodynaPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="#declaration">
-                <Button variant="secondary" className="w-full">
-                  {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
-                </Button>
-              </Link>
+              <div className="mt-auto">
+                <Link href="#declaration">
+                  <Button variant="secondary">
+                    {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
+                  </Button>
+                </Link>
+              </div>
             </motion.div>
 
             {/* Without Declaration */}
             <motion.div
-              className="bg-medical-surface-50 p-8 rounded-sm border-2 border-medical-surface-200"
+              className="bg-medical-surface-50 p-8 rounded-sm border-2 border-medical-surface-200 flex flex-col"
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -227,7 +229,7 @@ export default function AsklepiyRodynaPage() {
                   ? 'Платні послуги доступні без декларації. Отримайте якісну медичну допомогу в зручний час.'
                   : 'Paid services available without declaration. Get quality medical care at your convenience.'}
               </p>
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3 mb-6 flex-grow">
                 {[
                   { ua: 'Консультація терапевта або педіатра', en: 'Therapist or pediatrician consultation' },
                   { ua: 'Лабораторні аналізи у власній лабораторії', en: 'Lab tests in our own laboratory' },
@@ -243,11 +245,14 @@ export default function AsklepiyRodynaPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/booking">
-                <Button variant="outline" className="w-full">
+              <div className="mt-auto">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsBookingOpen(true)}
+                >
                   {locale === 'ua' ? 'Записатися на прийом' : 'Book Appointment'}
                 </Button>
-              </Link>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -267,31 +272,6 @@ export default function AsklepiyRodynaPage() {
                 ? 'Оберіть лікаря, з яким бажаєте заключити декларацію'
                 : 'Choose a doctor to sign a declaration with'}
             </h2>
-          </motion.div>
-
-          {/* Location Selector */}
-          <motion.div
-            className="max-w-4xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="bg-white p-6 rounded-sm shadow-medical-md">
-              <label className="block text-sm font-medium text-medical-primary-900 mb-4">
-                {locale === 'ua' ? 'Оберіть локацію:' : 'Select location:'}
-              </label>
-              <select
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(Number(e.target.value))}
-                className="w-full px-4 py-3 border border-medical-surface-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-medical-accent-500"
-              >
-                {locations.map((location) => (
-                  <option key={location.id} value={location.id}>
-                    {locale === 'ua' ? location.address : location.addressEn}
-                  </option>
-                ))}
-              </select>
-            </div>
           </motion.div>
 
           {/* Doctors Grid */}
@@ -356,6 +336,7 @@ export default function AsklepiyRodynaPage() {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info */}
             <motion.div
+              className="flex flex-col"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -399,7 +380,7 @@ export default function AsklepiyRodynaPage() {
               </div>
 
               {/* Working Hours */}
-              <div className="bg-white p-6 rounded-sm shadow-medical-md">
+              <div className="bg-white p-6 rounded-sm shadow-medical-md mt-auto">
                 <h4 className="font-medium text-medical-primary-900 mb-4">
                   {locale === 'ua' ? 'Графік роботи:' : 'Working Hours:'}
                 </h4>
@@ -450,22 +431,20 @@ export default function AsklepiyRodynaPage() {
                     <Input
                       type="text"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder={locale === 'ua' ? 'Іван Петренко' : 'Ivan Petrenko'}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
+                      placeholder={locale === 'ua' ? 'Прізвище ім\'я' : 'Last name first name'}
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-medical-primary-900 mb-2">
-                      {locale === 'ua' ? 'Номер телефону' : 'Phone Number'}
-                    </label>
                     <Input
                       type="tel"
+                      label={locale === 'ua' ? 'Номер телефону' : 'Phone Number'}
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+38 (___) ___-__-__"
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
                       required
+                      placeholder="+38 (0XX) XXX-XX-XX"
                     />
                   </div>
 
@@ -476,7 +455,7 @@ export default function AsklepiyRodynaPage() {
                     <Input
                       type="text"
                       value={formData.doctor}
-                      onChange={(e) => setFormData({ ...formData, doctor: e.target.value })}
+                      onChange={(e) => handleInputChange('doctor', e.target.value)}
                       placeholder={locale === 'ua' ? 'ПІБ лікаря' : 'Doctor\'s name'}
                     />
                   </div>
@@ -503,6 +482,9 @@ export default function AsklepiyRodynaPage() {
           </div>
         </div>
       </section>
+
+      {/* Booking Modal */}
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </div>
   );
 }

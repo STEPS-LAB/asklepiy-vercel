@@ -40,12 +40,7 @@ export default function DeclarationPage() {
     if (field === 'firstName' || field === 'lastName') {
       const filteredValue = value.replace(/[0-9]/g, '');
       setFormData((prev) => ({ ...prev, [field]: filteredValue }));
-    } 
-    // Block letters in phone field
-    else if (field === 'phone') {
-      const filteredValue = value.replace(/[^0-9+\-()_ ]/g, '');
-      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
-    } 
+    }
     else {
       setFormData((prev) => ({ ...prev, [field]: value }));
     }
@@ -216,6 +211,7 @@ export default function DeclarationPage() {
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   required
+                  placeholder="+38 (0XX) XXX-XX-XX"
                 />
               </div>
 
