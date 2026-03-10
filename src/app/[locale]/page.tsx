@@ -120,11 +120,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 pt-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Content - no scroll-based animations to avoid conflicts */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
+            <div>
               <span className="inline-block px-4 py-2 bg-medical-accent-100 text-medical-accent-700 rounded-sm text-sm font-medium mb-6">
                 {locale === 'ua' ? 'Провідний медичний центр України' : 'Leading medical center of Ukraine'}
               </span>
@@ -151,7 +147,7 @@ export default function HomePage() {
                   </Button>
                 </a>
               </div>
-            </motion.div>
+            </div>
 
             {/* Hero Image - static for better iOS performance */}
             <div className="relative hidden lg:block flex items-center">
@@ -174,12 +170,7 @@ export default function HomePage() {
       {/* Services Section */}
       <section className="section bg-medical-surface-50">
         <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <div className="text-center mb-12">
             <h2 className="section-title">
               {locale === 'ua' ? 'Напрямки' : 'Medical Directions'}
             </h2>
@@ -188,22 +179,18 @@ export default function HomePage() {
                 ? 'Комплексний підхід до вашого здоров\'я'
                 : 'Comprehensive approach to your health'}
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((service, index) => (
+            {services.map((service) => (
               <Link key={service.href} href={service.href}>
                 <Card
                   className="p-6 h-full group cursor-pointer"
                   interactive
                 >
-                  <motion.div
-                    className="w-14 h-14 bg-medical-accent-100 rounded-sm flex items-center justify-center mb-4 group-hover:bg-medical-accent-600 transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: 'spring', stiffness: 400 }}
-                  >
+                  <div className="w-14 h-14 bg-medical-accent-100 rounded-sm flex items-center justify-center mb-4 group-hover:bg-medical-accent-600 transition-colors">
                     <service.icon className="w-7 h-7 text-medical-accent-600 group-hover:text-white transition-colors" />
-                  </motion.div>
+                  </div>
                   <h3 className="text-lg font-medium text-medical-primary-900 mb-2">
                     {locale === 'ua' ? service.title : service.titleEn}
                   </h3>
@@ -215,12 +202,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <motion.div
-            className="text-center mt-12"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
+          <div className="text-center mt-12">
             <Link href="/directions">
               <Button variant="outline">
                 <span className="flex items-center">
@@ -229,7 +211,7 @@ export default function HomePage() {
                 </span>
               </Button>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
