@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { useLocale } from '@/contexts';
+import { useState, useCallback, useEffect } from 'react';
+import { useLocale, useUI } from '@/contexts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Calendar, Clock, User, FileText, ArrowRight, ArrowLeft, Phone, Mail, CreditCard } from 'lucide-react';
 import { Button, Card, Modal, Input } from '@/components/ui';
@@ -45,6 +45,7 @@ interface BookingModalProps {
 
 export function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const { locale } = useLocale();
+  const { setModalOpen } = useUI();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -58,6 +59,16 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  // Sync modal state with UI context
+  useEffect(() => {
+    setModalOpen(isOpen);
+    return () => {
+      if (!isOpen) {
+        setModalOpen(false);
+      }
+    };
+  }, [isOpen, setModalOpen]);
 
   // Generate next 7 days
   const getNextDays = () => {
@@ -133,8 +144,9 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setFormData({ firstName: '', lastName: '', phone: '', email: '' });
     setErrors({});
     setIsSuccess(false);
+    setModalOpen(false);
     onClose();
-  }, [onClose]);
+  }, [onClose, setModalOpen]);
 
   const handleInputChange = useCallback((field: string, value: string) => {
     // Block digits in name fields
@@ -308,16 +320,14 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 <label className="block text-sm font-medium text-medical-text-primary mb-2">
                   {locale === 'ua' ? 'Телефон *' : 'Phone *'}
                 </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-medical-text-tertiary" />
-                  <Input
-                    type="tel"
-                    placeholder="+380"
-                    value={formData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
-                    className={cn('pl-10', errors.phone && 'border-medical-status-error')}
-                  />
-                </div>
+                <Input
+                  type="tel"
+                  placeholder="+380"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
+                  icon={<Phone className="w-5 h-5" />}
+                  className={cn(errors.phone && 'border-medical-status-error')}
+                />
                 {errors.phone && (
                   <p className="mt-1 text-sm text-medical-status-error">{errors.phone}</p>
                 )}
@@ -327,16 +337,13 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 <label className="block text-sm font-medium text-medical-text-primary mb-2">
                   {locale === 'ua' ? 'Email (необовʼязково)' : 'Email (optional)'}
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-medical-text-tertiary" />
-                  <Input
-                    type="email"
-                    placeholder={locale === 'ua' ? 'example@email.com' : 'example@email.com'}
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
+                <Input
+                  type="email"
+                  placeholder={locale === 'ua' ? 'example@email.com' : 'example@email.com'}
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  icon={<Mail className="w-5 h-5" />}
+                />
               </div>
             </div>
           </div>
@@ -435,7 +442,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title={locale === 'ua' ? 'Записатись' : 'Book Appointment'} size="lg">
-      <div className="max-w-2xl mx-auto">
+      <div className="w-full">
         {/* Progress Steps */}
         {!isSuccess && (
           <div className="mb-6">

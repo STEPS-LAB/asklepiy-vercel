@@ -20,6 +20,7 @@ import {
   staggerItemVariants,
   modalVariants,
 } from '@/lib/motion';
+import { useUI } from '@/contexts';
 
 interface Message {
   id: string;
@@ -88,6 +89,7 @@ function AIAssistantSkeleton() {
 
 export function AIAssistant() {
   const { locale } = useLocale();
+  const { isModalOpen } = useUI();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -96,6 +98,14 @@ export function AIAssistant() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatWindowRef = useRef<HTMLDivElement>(null);
+
+  // Close chat when modal opens
+  useEffect(() => {
+    if (isModalOpen && isOpen) {
+      setIsOpen(false);
+      setIsMinimized(false);
+    }
+  }, [isModalOpen, isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -237,7 +247,7 @@ export function AIAssistant() {
     <>
       {/* Floating Button */}
       <motion.div
-        className="fixed bottom-6 right-6 z-toast"
+        className={cn('fixed bottom-6 right-6 z-toast', isModalOpen && 'hidden')}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 1, type: 'spring', stiffness: 400, damping: 20 }}

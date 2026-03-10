@@ -83,10 +83,11 @@ export function Modal({
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 z-modal flex items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-modal flex items-center justify-center pointer-events-none">
             <motion.div
               className={cn(
-                'w-full bg-white rounded-sm shadow-medical-xl overflow-hidden',
+                'w-full mx-4 bg-white rounded-sm shadow-medical-xl overflow-hidden pointer-events-auto',
+                'max-h-[calc(100vh-2rem)] overflow-y-auto',
                 sizeClasses[size]
               )}
               variants={modalVariants}
@@ -99,7 +100,7 @@ export function Modal({
               aria-labelledby="modal-title"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-medical-surface-200 bg-medical-surface-50/50">
+              <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-medical-surface-200 bg-medical-surface-50/50">
                 <motion.h2
                   id="modal-title"
                   className="text-lg font-medium text-medical-primary-900 font-secondary"
@@ -127,7 +128,7 @@ export function Modal({
 
               {/* Content with smooth entry */}
               <motion.div
-                className="px-6 py-6"
+                className="px-4 sm:px-6 py-4 sm:py-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.3 }}
