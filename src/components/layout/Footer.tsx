@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import React from 'react';
 import { useLocale } from '@/contexts';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Youtube } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Instagram } from 'lucide-react';
 import { staggerContainerVariants, fadeInUpVariants } from '@/lib/motion';
 
 const footerLinks = {
@@ -21,9 +23,43 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { href: '#', icon: Facebook, label: 'Facebook' },
-  { href: '#', icon: Instagram, label: 'Instagram' },
-  { href: '#', icon: Youtube, label: 'YouTube' },
+  {
+    href: 'https://t.me/Asklepiy_Clinika_Bot',
+    renderIcon: () => (
+      <div className="w-5 h-5">
+        <Image
+          src="/images/tg-logo.svg"
+          alt="Telegram"
+          width={20}
+          height={20}
+          className="invert"
+          style={{ filter: 'invert(100%) brightness(200%)' }}
+        />
+      </div>
+    ),
+    label: 'Telegram',
+  },
+  {
+    href: 'https://www.instagram.com/asklepiyua',
+    renderIcon: (props: React.SVGProps<SVGSVGElement>) => <Instagram {...props} />,
+    label: 'Instagram',
+  },
+  {
+    href: 'viber://pa?chatURI=asklepiy',
+    renderIcon: () => (
+      <div className="w-5 h-5">
+        <Image
+          src="/images/viber-logo.svg"
+          alt="Viber"
+          width={20}
+          height={20}
+          className="invert"
+          style={{ filter: 'invert(100%) brightness(200%)' }}
+        />
+      </div>
+    ),
+    label: 'Viber',
+  },
 ];
 
 export function Footer() {
@@ -78,8 +114,14 @@ export function Footer() {
                   whileHover={{ scale: 1.1, y: -3 }}
                   whileTap={{ scale: 0.95 }}
                   aria-label={social.label}
+                  target={social.label !== 'Instagram' ? '_blank' : undefined}
+                  rel={social.label !== 'Instagram' ? 'noopener noreferrer' : undefined}
                 >
-                  <social.icon className="w-5 h-5" />
+                  {social.label === 'Instagram' ? (
+                    <social.renderIcon className="w-5 h-5" />
+                  ) : (
+                    <social.renderIcon />
+                  )}
                 </motion.a>
               ))}
             </div>

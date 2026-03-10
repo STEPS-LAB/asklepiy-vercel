@@ -108,9 +108,11 @@ export default function DashboardPage() {
               ? 'Отримайте доступ до своїх медичних записів та записів на прийом'
               : 'Access your medical records and appointments'}
           </p>
-          <Button onClick={() => setIsSignInOpen(true)}>
-            {locale === 'ua' ? 'Увійти' : 'Sign In'}
-          </Button>
+          <a href="https://patient-docs.com/login" target="_blank" rel="noopener noreferrer">
+            <Button>
+              {locale === 'ua' ? 'Увійти' : 'Sign In'}
+            </Button>
+          </a>
         </div>
       </div>
     );
