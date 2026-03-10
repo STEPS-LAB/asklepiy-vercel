@@ -85,7 +85,7 @@ export function NewsSection() {
     <section className="section bg-white">
       <div className="container mx-auto px-4">
         <motion.div
-          className="flex flex-col md:flex-row md:items-center md:justify-between mb-12"
+          className="flex flex-col md:flex-row md:items-center md:justify-between mb-12 gap-6 md:gap-0"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -111,48 +111,46 @@ export function NewsSection() {
           {news.map((item, index) => (
             <motion.div
               key={item.id}
-              className="group"
+              className="flex flex-col h-full"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Link href={`/news/${item.id}`}>
-                <div className="bg-medical-surface-50 rounded-sm overflow-hidden hover:shadow-medical-lg transition-shadow">
-                  {/* Image Placeholder */}
-                  <div className="aspect-[4/3] bg-gradient-to-br from-medical-primary-200 to-medical-accent-200 flex items-center justify-center">
-                    <Tag className="w-12 h-12 text-medical-primary-900/20" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-4">
-                    {/* Category Badge */}
-                    <span className={`inline-block px-3 py-1 rounded-sm text-xs font-medium mb-3 ${
-                      item.category[locale === 'ua' ? 'ua' : 'en'] === 'Promotion' || item.category[locale === 'ua' ? 'ua' : 'en'] === 'Акція'
-                        ? 'bg-medical-accent-100 text-medical-accent-700'
-                        : 'bg-medical-primary-100 text-medical-primary-700'
-                    }`}>
-                      {item.category[locale === 'ua' ? 'ua' : 'en']}
-                    </span>
-
-                    {/* Title */}
-                    <h3 className="font-medium text-medical-primary-900 mb-2 line-clamp-2 group-hover:text-medical-accent-600 transition-colors">
-                      {item.title[locale === 'ua' ? 'ua' : 'en']}
-                    </h3>
-
-                    {/* Date */}
-                    <div className="flex items-center gap-2 text-sm text-medical-text-tertiary mb-3">
-                      <Calendar className="w-4 h-4" />
-                      <span>{formatDate(item.date)}</span>
-                    </div>
-
-                    {/* Excerpt */}
-                    <p className="text-medical-text-secondary text-sm line-clamp-3">
-                      {item.excerpt[locale === 'ua' ? 'ua' : 'en']}
-                    </p>
-                  </div>
+              <div className="bg-medical-surface-50 rounded-sm overflow-hidden flex flex-col flex-1">
+                {/* Image Placeholder */}
+                <div className="aspect-[4/3] bg-gradient-to-br from-medical-primary-200 to-medical-accent-200 flex items-center justify-center flex-shrink-0">
+                  <Tag className="w-12 h-12 text-medical-primary-900/20" />
                 </div>
-              </Link>
+
+                {/* Content */}
+                <div className="p-4 flex flex-col flex-1">
+                  {/* Category Badge */}
+                  <span className={`inline-block px-3 py-1 rounded-sm text-xs font-medium mb-3 w-fit ${
+                    item.category[locale === 'ua' ? 'ua' : 'en'] === 'Promotion' || item.category[locale === 'ua' ? 'ua' : 'en'] === 'Акція'
+                      ? 'bg-medical-accent-100 text-medical-accent-700'
+                      : 'bg-medical-primary-100 text-medical-primary-700'
+                  }`}>
+                    {item.category[locale === 'ua' ? 'ua' : 'en']}
+                  </span>
+
+                  {/* Title */}
+                  <h3 className="font-medium text-medical-primary-900 mb-2 line-clamp-2">
+                    {item.title[locale === 'ua' ? 'ua' : 'en']}
+                  </h3>
+
+                  {/* Date */}
+                  <div className="flex items-center gap-2 text-sm text-medical-text-tertiary mb-3">
+                    <Calendar className="w-4 h-4" />
+                    <span>{formatDate(item.date)}</span>
+                  </div>
+
+                  {/* Excerpt */}
+                  <p className="text-medical-text-secondary text-sm line-clamp-3 mt-auto">
+                    {item.excerpt[locale === 'ua' ? 'ua' : 'en']}
+                  </p>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>

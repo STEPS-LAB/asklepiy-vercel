@@ -12,7 +12,7 @@ const intlMiddleware = createMiddleware({
 export default function middleware(request: NextRequest) {
   // Run the default intl middleware first
   const response = intlMiddleware(request);
-  
+
   // Check if user has a saved locale preference in cookies
   const savedLocale = request.cookies.get('locale')?.value;
 
@@ -28,6 +28,14 @@ export default function middleware(request: NextRequest) {
         const url = request.nextUrl.clone();
         url.pathname = `/${savedLocale}${pathname}`;
         return NextResponse.redirect(url);
+      }
+      // If path has locale but it's different from saved locale, update cookie to match URL
+      if (locales.includes(pathLocale as typeof locales[number]) && pathLocale !== savedLocale) {
+        response.cookies.set('locale', pathLocale, {
+          path: '/',
+          maxAge: 31536000,
+          sameSite: 'lax',
+        });
       }
     }
   }
