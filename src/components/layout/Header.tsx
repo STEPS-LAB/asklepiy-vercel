@@ -74,7 +74,7 @@ export function Header() {
         className={cn(
           'fixed top-0 left-0 right-0 z-overlay transition-all duration-500 h-[80px]',
           isScrolled ? 'glass shadow-medical-md' : 'bg-transparent',
-          isMobileMenuOpen && 'lg:hidden'
+          isMobileMenuOpen && 'hidden'
         )}
       >
         <div className="container mx-auto px-4 h-full">
