@@ -135,12 +135,12 @@ export default function AsklepiyRodynaPage() {
                 : '"Asklepiy Rodyna" is a modern family medicine center near your home. Quality medical services in comfortable conditions without queues and stress.'}
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-4 w-full max-w-[340px] mx-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-[340px] sm:max-w-[680px] mx-auto">
               <Button
                 size="lg"
                 rightIcon={<ArrowRight className="w-4 h-4" />}
                 onClick={() => window.location.href = '#declaration'}
-                className="w-full"
+                className="w-full sm:flex-1"
               >
                 {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
               </Button>
@@ -149,9 +149,9 @@ export default function AsklepiyRodynaPage() {
                 size="lg"
                 leftIcon={<img src="/images/tg-logo.svg" alt="Telegram" className="w-5 h-5" />}
                 onClick={() => window.open('https://t.me/asklepiy_rodyna', '_blank', 'noopener,noreferrer')}
-                className="w-full justify-center"
+                className="w-full sm:flex-1 justify-center"
               >
-                {locale === 'ua' ? 'Telegram-канал сімейної медицини' : 'Family Medicine Telegram Channel'}
+                <span className="text-center">{locale === 'ua' ? 'Telegram-канал сімейної медицини' : 'Family Medicine Telegram Channel'}</span>
               </Button>
             </div>
           </motion.div>
@@ -208,7 +208,7 @@ export default function AsklepiyRodynaPage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-auto">
+              <div className="mt-auto text-center">
                 <Button variant="secondary" onClick={() => window.location.href = '#declaration'}>
                   {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
                 </Button>
@@ -249,7 +249,7 @@ export default function AsklepiyRodynaPage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-auto">
+              <div className="mt-auto text-center">
                 <Button
                   variant="outline"
                   onClick={() => setIsBookingOpen(true)}
@@ -263,25 +263,11 @@ export default function AsklepiyRodynaPage() {
       </section>
 
       {/* Doctor Selection Section */}
-      <section id="declaration" className="section bg-medical-surface-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="section-title">
-              {locale === 'ua'
-                ? 'Оберіть лікаря, з яким бажаєте заключити декларацію'
-                : 'Choose a doctor to sign a declaration with'}
-            </h2>
-          </motion.div>
-
-          {/* Doctors Grid */}
-          <DoctorsSection />
-        </div>
-      </section>
+      <DoctorsSection showTitleOnly title={
+        locale === 'ua'
+          ? 'Оберіть лікаря, з яким бажаєте заключити декларацію'
+          : 'Choose a doctor to sign a declaration with'
+      } />
 
       {/* Free Services Section */}
       <section className="section bg-white">

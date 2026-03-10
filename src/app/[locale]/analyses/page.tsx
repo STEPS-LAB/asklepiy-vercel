@@ -840,7 +840,7 @@ export default function ServicesPage() {
       </motion.div>
 
       {/* Search */}
-      <div className="max-w-xl mx-auto mb-12">
+      <div className="max-w-xl mx-auto mb-12 relative z-50">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-medical-text-tertiary" />
           <Input
@@ -851,13 +851,13 @@ export default function ServicesPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        
+
         {/* Search Results */}
         {searchQuery.length >= 2 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-sm shadow-medical-lg border border-medical-surface-200 max-h-96 overflow-y-auto z-10"
+            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-sm shadow-medical-lg border border-medical-surface-200 max-h-96 overflow-y-auto"
           >
             {searchResults.length > 0 ? (
               <div className="divide-y divide-medical-surface-100">
@@ -899,78 +899,80 @@ export default function ServicesPage() {
       </div>
 
       {/* Service Sections */}
-      <div className="space-y-4">
-        {serviceSections.map((section, index) => {
-          const sectionData = pricingData[section.id];
+      {searchQuery.length < 2 && (
+        <div className="space-y-4">
+          {serviceSections.map((section, index) => {
+            const sectionData = pricingData[section.id];
 
-          return (
-            <motion.div
-              key={section.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-            >
-              <Card className="overflow-hidden">
-                {/* Section Header */}
-                <button
-                  onClick={() => toggleSection(section.id)}
-                  className={cn(
-                    'w-full flex items-center justify-between p-6 transition-colors',
-                    expandedSection === section.id ? 'bg-medical-surface-50' : 'hover:bg-medical-surface-50'
-                  )}
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="text-3xl">{section.icon}</span>
-                    <div className="text-left">
-                      <h2 className="text-xl font-medium text-medical-primary-900">
-                        {locale === 'ua' ? section.name : section.nameEn}
-                      </h2>
-                    </div>
-                  </div>
-                  {expandedSection === section.id ? (
-                    <ChevronUp className="w-6 h-6 text-medical-text-tertiary" />
-                  ) : (
-                    <ChevronDown className="w-6 h-6 text-medical-text-tertiary" />
-                  )}
-                </button>
-
-                {/* Section Content */}
-                {expandedSection === section.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="border-t border-medical-surface-200"
+            return (
+              <motion.div
+                key={section.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <Card className="overflow-hidden">
+                  {/* Section Header */}
+                  <button
+                    onClick={() => toggleSection(section.id)}
+                    className={cn(
+                      'w-full flex items-center justify-between p-6 transition-colors',
+                      expandedSection === section.id ? 'bg-medical-surface-50' : 'hover:bg-medical-surface-50'
+                    )}
                   >
-                    <div className="p-6">
-                      {/* Categories Grid */}
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
-                        {sectionData && Object.keys(sectionData).map((category) => (
-                          <button
-                            key={category}
-                            onClick={() => selectCategory(category)}
-                            className={cn(
-                              'px-4 py-2.5 text-left text-sm rounded-sm transition-colors',
-                              selectedCategory === category
-                                ? 'bg-medical-accent-600 text-white font-medium'
-                                : 'bg-medical-surface-50 text-medical-text-primary hover:bg-medical-surface-100'
-                            )}
-                          >
-                            {categoryNames[category] ? (locale === 'ua' ? categoryNames[category].ua : categoryNames[category].en) : category}
-                          </button>
-                        ))}
+                    <div className="flex items-center gap-4">
+                      <span className="text-3xl">{section.icon}</span>
+                      <div className="text-left">
+                        <h2 className="text-xl font-medium text-medical-primary-900">
+                          {locale === 'ua' ? section.name : section.nameEn}
+                        </h2>
                       </div>
-
-                      {/* Service Tables */}
-                      {renderSectionContent(section.id)}
                     </div>
-                  </motion.div>
-                )}
-              </Card>
-            </motion.div>
-          );
-        })}
-      </div>
+                    {expandedSection === section.id ? (
+                      <ChevronUp className="w-6 h-6 text-medical-text-tertiary" />
+                    ) : (
+                      <ChevronDown className="w-6 h-6 text-medical-text-tertiary" />
+                    )}
+                  </button>
+
+                  {/* Section Content */}
+                  {expandedSection === section.id && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="border-t border-medical-surface-200"
+                    >
+                      <div className="p-6">
+                        {/* Categories Grid */}
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
+                          {sectionData && Object.keys(sectionData).map((category) => (
+                            <button
+                              key={category}
+                              onClick={() => selectCategory(category)}
+                              className={cn(
+                                'px-4 py-2.5 text-left text-sm rounded-sm transition-colors',
+                                selectedCategory === category
+                                  ? 'bg-medical-accent-600 text-white font-medium'
+                                  : 'bg-medical-surface-50 text-medical-text-primary hover:bg-medical-surface-100'
+                              )}
+                            >
+                              {categoryNames[category] ? (locale === 'ua' ? categoryNames[category].ua : categoryNames[category].en) : category}
+                            </button>
+                          ))}
+                        </div>
+
+                        {/* Service Tables */}
+                        {renderSectionContent(section.id)}
+                      </div>
+                    </motion.div>
+                  )}
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
 
       {/* Booking Modal */}
       <ServiceBookingModal

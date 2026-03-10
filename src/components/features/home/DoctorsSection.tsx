@@ -65,7 +65,7 @@ const doctors = [
   },
 ];
 
-export function DoctorsSection() {
+export function DoctorsSection({ showTitleOnly, title }: { showTitleOnly?: boolean; title?: string }) {
   const { locale } = useLocale();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
@@ -73,21 +73,32 @@ export function DoctorsSection() {
     <>
       <section className="section bg-medical-surface-50">
       <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="section-title">
-            {locale === 'ua' ? 'Наші лікарі' : 'Our Doctors'}
-          </h2>
-          <p className="section-subtitle mx-auto">
-            {locale === 'ua'
-              ? 'Досвідчені фахівці з турботою про пацієнтів'
-              : 'Experienced specialists caring for patients'}
-          </p>
-        </motion.div>
+        {showTitleOnly ? (
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="section-title">{title}</h2>
+          </motion.div>
+        ) : (
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="section-title">
+              {locale === 'ua' ? 'Наші лікарі' : 'Our Doctors'}
+            </h2>
+            <p className="section-subtitle mx-auto">
+              {locale === 'ua'
+                ? 'Досвідчені фахівці з турботою про пацієнтів'
+                : 'Experienced specialists caring for patients'}
+            </p>
+          </motion.div>
+        )}
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {doctors.slice(0, locale === 'ua' ? 3 : doctors.length).map((doctor, index) => (
