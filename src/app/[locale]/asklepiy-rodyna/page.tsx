@@ -2,7 +2,6 @@
 
 import { useLocale } from '@/contexts';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { useState } from 'react';
 import {
   Heart,
@@ -136,17 +135,24 @@ export default function AsklepiyRodynaPage() {
                 : '"Asklepiy Rodyna" is a modern family medicine center near your home. Quality medical services in comfortable conditions without queues and stress.'}
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link href="#declaration">
-                <Button size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                  {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
-                </Button>
-              </Link>
-              <a href="https://t.me/asklepiy_rodyna" target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" size="lg" leftIcon={<img src="/images/tg-logo.svg" alt="Telegram" className="w-5 h-5" />}>
-                  {locale === 'ua' ? 'Telegram-канал сімейної медицини' : 'Family Medicine Telegram Channel'}
-                </Button>
-              </a>
+            <div className="flex flex-col items-center justify-center gap-4 w-full max-w-[340px] mx-auto">
+              <Button
+                size="lg"
+                rightIcon={<ArrowRight className="w-4 h-4" />}
+                onClick={() => window.location.href = '#declaration'}
+                className="w-full"
+              >
+                {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                leftIcon={<img src="/images/tg-logo.svg" alt="Telegram" className="w-5 h-5" />}
+                onClick={() => window.open('https://t.me/asklepiy_rodyna', '_blank', 'noopener,noreferrer')}
+                className="w-full justify-center"
+              >
+                {locale === 'ua' ? 'Telegram-канал сімейної медицини' : 'Family Medicine Telegram Channel'}
+              </Button>
             </div>
           </motion.div>
         </div>
@@ -203,11 +209,9 @@ export default function AsklepiyRodynaPage() {
                 ))}
               </ul>
               <div className="mt-auto">
-                <Link href="#declaration">
-                  <Button variant="secondary">
-                    {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
-                  </Button>
-                </Link>
+                <Button variant="secondary" onClick={() => window.location.href = '#declaration'}>
+                  {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
+                </Button>
               </div>
             </motion.div>
 

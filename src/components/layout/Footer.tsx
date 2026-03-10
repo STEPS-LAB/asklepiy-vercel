@@ -96,8 +96,8 @@ export function Footer() {
             </Link>
             <p className="text-medical-surface-300 mb-6 max-w-sm font-light leading-relaxed">
               {locale === 'ua'
-                ? 'Провідний приватний медичний центр України з сучасним обладнанням та кваліфікованими лікарями.'
-                : "Ukraine's leading private clinic with modern equipment and qualified doctors."}
+                ? 'Провідний медичний центр України з сучасним обладнанням та кваліфікованими лікарями.'
+                : "Ukraine's leading clinic with modern equipment and qualified doctors."}
             </p>
 
             {/* Social Links */}
@@ -189,8 +189,8 @@ export function Footer() {
                 <MapPin className="w-5 h-5 text-medical-accent-500 mt-0.5 flex-shrink-0" />
                 <span className="text-medical-surface-300 font-light">
                   {locale === 'ua'
-                    ? 'м. Житомир, вул. Київська 21'
-                    : 'Zhytomyr, Kyivska St 21'}
+                    ? 'м. Житомир, вул. Покровська 31'
+                    : 'Zhytomyr, Pokrovska St 31'}
                 </span>
               </motion.li>
               <motion.li
@@ -253,8 +253,8 @@ export function Footer() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <p className="text-medical-surface-400 text-sm font-light">
               {locale === 'ua'
-                ? `© ${currentYear} Асклепій Клінік. Всі права захищено.`
-                : `© ${currentYear} Asklepiy Clinic. All rights reserved.`}
+                ? `© ${currentYear} Асклепій. Всі права захищено.`
+                : `© ${currentYear} Asklepiy. All rights reserved.`}
             </p>
             <p className="text-medical-surface-400 text-sm font-light">
               {locale === 'ua'

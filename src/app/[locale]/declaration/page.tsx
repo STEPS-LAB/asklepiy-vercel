@@ -67,12 +67,13 @@ export default function DeclarationPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
+    <>
+      <div className="container mx-auto px-4" style={{ marginTop: '-80px', paddingTop: '0' }}>
+        <motion.div
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
         <h1 className="text-3xl md:text-4xl font-secondary font-medium text-medical-primary-900 mb-4">
           {locale === 'ua' ? 'Декларація з лікарем' : 'Doctor Declaration'}
         </h1>

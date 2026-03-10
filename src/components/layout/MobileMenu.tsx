@@ -122,25 +122,25 @@ export function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProps) {
 
             {/* Working Hours */}
             <div className="px-6 py-4 border-t border-medical-surface-200">
-              <div className="flex items-start gap-3 py-3 px-4 bg-medical-surface-50 rounded-sm">
+              <div className="flex items-start gap-3 py-3 px-4 rounded-sm">
                 <Clock className="w-5 h-5 text-medical-accent-600 mt-0.5" />
                 <div>
                   <span className="block text-sm font-medium text-medical-primary-900">
                     {locale === 'ua' ? 'Графік роботи' : 'Working hours'}
                   </span>
                   <span className="block text-sm text-medical-text-secondary">
-                    {locale === 'ua' 
-                      ? 'Пн-Пт: 8:00 - 20:00' 
+                    {locale === 'ua'
+                      ? 'Пн-Пт: 8:00 - 20:00'
                       : 'Mon-Fri: 8:00 - 20:00'}
                   </span>
                   <span className="block text-sm text-medical-text-secondary">
-                    {locale === 'ua' 
-                      ? 'Сб: 9:00 - 17:00' 
+                    {locale === 'ua'
+                      ? 'Сб: 9:00 - 17:00'
                       : 'Sat: 9:00 - 17:00'}
                   </span>
                   <span className="block text-sm text-medical-text-secondary">
-                    {locale === 'ua' 
-                      ? 'Нд: 9:00 - 15:00' 
+                    {locale === 'ua'
+                      ? 'Нд: 9:00 - 15:00'
                       : 'Sun: 9:00 - 15:00'}
                   </span>
                 </div>
