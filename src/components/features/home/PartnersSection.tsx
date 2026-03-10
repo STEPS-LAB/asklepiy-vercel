@@ -1,9 +1,9 @@
 'use client';
 
 import { useLocale } from '@/contexts';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Building2, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState, useRef, TouchEvent, useEffect } from 'react';
+import { useState, useRef, TouchEvent, useEffect, useCallback } from 'react';
 
 const partners = [
   { id: 1, name: 'Полісся', nameEn: 'Polissia' },
@@ -16,10 +16,28 @@ const partners = [
 
 const VISIBLE_PARTNERS_MOBILE = 3;
 
+// Animation variants for smooth sliding
+const sliderVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 100 : -100,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction > 0 ? -100 : 100,
+    opacity: 0,
+  }),
+};
+
 export function PartnersSection() {
   const { locale } = useLocale();
   const [startIndex, setStartIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [slideDirection, setSlideDirection] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
 
@@ -30,25 +48,37 @@ export function PartnersSection() {
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setStartIndex(0);
+      }
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
+    if (isAnimating || startIndex === 0) return;
+    setSlideDirection(-1);
     setStartIndex((prev) => Math.max(0, prev - 1));
-  };
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 400);
+  }, [isAnimating, startIndex]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
+    if (isAnimating || startIndex >= partners.length - VISIBLE_PARTNERS) return;
+    setSlideDirection(1);
     setStartIndex((prev) => Math.min(partners.length - VISIBLE_PARTNERS, prev + 1));
-  };
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 400);
+  }, [isAnimating, startIndex, VISIBLE_PARTNERS]);
 
   const canGoPrev = startIndex > 0;
   const canGoNext = startIndex < partners.length - VISIBLE_PARTNERS && isMobile;
 
   const handleTouchStart = (e: TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = 0;
   };
 
   const handleTouchMove = (e: TouchEvent) => {
@@ -56,6 +86,7 @@ export function PartnersSection() {
   };
 
   const handleTouchEnd = () => {
+    if (isAnimating) return;
     const swipeThreshold = 50;
     const diff = touchStartX.current - touchEndX.current;
 
@@ -89,29 +120,47 @@ export function PartnersSection() {
 
         {/* Partners Grid with Navigation */}
         <div className="relative">
-          <div 
-            className="grid grid-cols-3 md:grid-cols-6 gap-6"
+          <div
+            className="grid grid-cols-3 md:grid-cols-6 gap-6 overflow-hidden"
             onTouchStart={isMobile ? handleTouchStart : undefined}
             onTouchMove={isMobile ? handleTouchMove : undefined}
             onTouchEnd={isMobile ? handleTouchEnd : undefined}
           >
-            {visiblePartners.map((partner, index) => (
+            <AnimatePresence initial={false} custom={slideDirection}>
               <motion.div
-                key={partner.id}
-                className="flex items-center justify-center p-6 bg-medical-surface-50 rounded-sm hover:bg-medical-accent-50 transition-colors"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
+                key={startIndex}
+                className="grid grid-cols-3 md:grid-cols-6 gap-6 w-full"
+                custom={slideDirection}
+                variants={sliderVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: 'spring', stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.3 },
+                }}
+                style={{ willChange: 'transform, opacity' }}
               >
-                <div className="text-center">
-                  <Building2 className="w-12 h-12 text-medical-accent-400 mx-auto mb-2" />
-                  <span className="text-sm font-medium text-medical-text-secondary">
-                    {locale === 'ua' ? partner.name : partner.nameEn}
-                  </span>
-                </div>
+                {visiblePartners.map((partner, index) => (
+                  <motion.div
+                    key={partner.id}
+                    className="flex items-center justify-center p-6 bg-medical-surface-50 rounded-sm hover:bg-medical-accent-50 transition-colors"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    <div className="text-center">
+                      <Building2 className="w-12 h-12 text-medical-accent-400 mx-auto mb-2" />
+                      <span className="text-sm font-medium text-medical-text-secondary">
+                        {locale === 'ua' ? partner.name : partner.nameEn}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
+            </AnimatePresence>
           </div>
 
           {/* Desktop Navigation Arrows */}
@@ -120,22 +169,22 @@ export function PartnersSection() {
               <>
                 <button
                   onClick={handlePrev}
-                  disabled={!canGoPrev}
-                  className={`w-12 h-12 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
-                    !canGoPrev
+                  disabled={!canGoPrev || isAnimating}
+                  className={`w-12 h-12 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-all ${
+                    !canGoPrev || isAnimating
                       ? 'opacity-30 cursor-not-allowed'
-                      : 'hover:bg-medical-accent-500 hover:text-white'
+                      : 'hover:bg-medical-accent-500 hover:text-white hover:scale-105'
                   }`}
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
                 <button
                   onClick={handleNext}
-                  disabled={!canGoNext}
-                  className={`w-12 h-12 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
-                    !canGoNext
+                  disabled={!canGoNext || isAnimating}
+                  className={`w-12 h-12 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-all ${
+                    !canGoNext || isAnimating
                       ? 'opacity-30 cursor-not-allowed'
-                      : 'hover:bg-medical-accent-500 hover:text-white'
+                      : 'hover:bg-medical-accent-500 hover:text-white hover:scale-105'
                   }`}
                 >
                   <ChevronRight className="w-6 h-6" />
@@ -149,22 +198,22 @@ export function PartnersSection() {
             <div className="flex md:hidden justify-center gap-2 mt-6">
               <button
                 onClick={handlePrev}
-                disabled={!canGoPrev}
-                className={`w-10 h-10 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
-                  !canGoPrev
+                disabled={!canGoPrev || isAnimating}
+                className={`w-10 h-10 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-all ${
+                  !canGoPrev || isAnimating
                     ? 'opacity-30 cursor-not-allowed'
-                    : 'hover:bg-medical-accent-500 hover:text-white'
+                    : 'hover:bg-medical-accent-500 hover:text-white hover:scale-105'
                 }`}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={handleNext}
-                disabled={!canGoNext}
-                className={`w-10 h-10 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
-                  !canGoNext
+                disabled={!canGoNext || isAnimating}
+                className={`w-10 h-10 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-all ${
+                  !canGoNext || isAnimating
                     ? 'opacity-30 cursor-not-allowed'
-                    : 'hover:bg-medical-accent-500 hover:text-white'
+                    : 'hover:bg-medical-accent-500 hover:text-white hover:scale-105'
                 }`}
               >
                 <ChevronRight className="w-5 h-5" />
