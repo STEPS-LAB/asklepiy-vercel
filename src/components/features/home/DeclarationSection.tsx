@@ -109,7 +109,7 @@ export function DeclarationSection() {
             </p>
 
             {/* Benefits Grid */}
-            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-6 mb-8">
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={index}

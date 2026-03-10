@@ -4,7 +4,8 @@ import { useLocale } from '@/contexts';
 import { motion } from 'framer-motion';
 import { CheckCircle, FileText, Shield, Clock, Award } from 'lucide-react';
 import { Card, Button, Input } from '@/components/ui';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { cn } from '@/lib/utils';
 
 const benefits = [
   { icon: Clock, title: 'Пріоритетний запис', titleEn: 'Priority booking', description: 'Запис на прийом поза чергою', descriptionEn: 'Priority appointment booking' },
@@ -34,10 +35,36 @@ export default function DeclarationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const handleInputChange = useCallback((field: string, value: string) => {
+    // Block digits in name fields
+    if (field === 'firstName' || field === 'lastName') {
+      const filteredValue = value.replace(/[0-9]/g, '');
+      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
+    } 
+    // Block letters in phone field
+    else if (field === 'phone') {
+      const filteredValue = value.replace(/[^0-9+\-()_ ]/g, '');
+      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
+    } 
+    else {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    }
+  }, []);
+
+  const isFormValid = 
+    selectedDoctor &&
+    formData.firstName.trim() &&
+    formData.lastName.trim() &&
+    formData.birthDate &&
+    formData.phone.trim() &&
+    formData.email.trim() &&
+    formData.address.trim() &&
+    formData.consent;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.consent) return;
-    
+    if (!isFormValid) return;
+
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
@@ -119,30 +146,43 @@ export default function DeclarationPage() {
                 <label className="block text-sm font-medium text-medical-text-primary mb-2">
                   {locale === 'ua' ? 'Оберіть лікаря' : 'Select a doctor'}
                 </label>
-                <div className="space-y-2">
-                  {doctors.map((doctor) => (
-                    <label
-                      key={doctor.id}
-                      className="flex items-center gap-3 p-3 border-2 border-medical-surface-200 rounded-sm cursor-pointer hover:border-medical-accent-300 transition-colors"
-                    >
-                      <input
-                        type="radio"
-                        name="doctor"
-                        value={doctor.id}
-                        checked={selectedDoctor === doctor.id}
-                        onChange={(e) => setSelectedDoctor(e.target.value)}
-                        className="w-4 h-4 text-medical-accent-600"
-                      />
-                      <div>
-                        <p className="font-medium text-medical-primary-900">
-                          {locale === 'ua' ? doctor.name : doctor.nameEn}
-                        </p>
-                        <p className="text-sm text-medical-text-tertiary">
-                          {locale === 'ua' ? doctor.specialty : doctor.specialtyEn}
-                        </p>
+                <div className="space-y-3">
+                  {doctors.map((doctor) => {
+                    const isSelected = selectedDoctor === doctor.id;
+                    return (
+                      <div
+                        key={doctor.id}
+                        onClick={() => setSelectedDoctor(doctor.id)}
+                        className={cn(
+                          'flex items-center gap-4 p-4 rounded-sm cursor-pointer transition-all border-2',
+                          isSelected
+                            ? 'border-medical-accent-500 bg-medical-accent-50'
+                            : 'border-medical-surface-200 hover:border-medical-accent-300'
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            'w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors',
+                            isSelected
+                              ? 'border-medical-accent-500 bg-medical-accent-500'
+                              : 'border-medical-surface-400'
+                          )}
+                        >
+                          {isSelected && (
+                            <div className="w-2 h-2 bg-white rounded-full" />
+                          )}
+                        </div>
+                        <div>
+                          <p className="font-medium text-medical-primary-900">
+                            {locale === 'ua' ? doctor.name : doctor.nameEn}
+                          </p>
+                          <p className="text-sm text-medical-text-tertiary">
+                            {locale === 'ua' ? doctor.specialty : doctor.specialtyEn}
+                          </p>
+                        </div>
                       </div>
-                    </label>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
@@ -151,13 +191,13 @@ export default function DeclarationPage() {
                 <Input
                   label={locale === 'ua' ? 'Прізвище' : 'Last name'}
                   value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  onChange={(e) => handleInputChange('lastName', e.target.value)}
                   required
                 />
                 <Input
                   label={locale === 'ua' ? `Ім'я` : 'First name'}
                   value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  onChange={(e) => handleInputChange('firstName', e.target.value)}
                   required
                 />
               </div>
@@ -174,7 +214,7 @@ export default function DeclarationPage() {
                   type="tel"
                   label={locale === 'ua' ? 'Телефон' : 'Phone'}
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) => handleInputChange('phone', e.target.value)}
                   required
                 />
               </div>
@@ -212,7 +252,7 @@ export default function DeclarationPage() {
               <Button
                 type="submit"
                 isLoading={isSubmitting}
-                disabled={!formData.consent || !selectedDoctor}
+                disabled={!isFormValid}
                 className="w-full"
               >
                 {locale === 'ua' ? 'Подати декларацію' : 'Submit declaration'}

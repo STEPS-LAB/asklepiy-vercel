@@ -137,7 +137,20 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
   }, [onClose]);
 
   const handleInputChange = useCallback((field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Block digits in name fields
+    if (field === 'firstName' || field === 'lastName') {
+      const filteredValue = value.replace(/[0-9]/g, '');
+      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
+    } 
+    // Block letters in phone field
+    else if (field === 'phone') {
+      const filteredValue = value.replace(/[^0-9+\-()_ ]/g, '');
+      setFormData((prev) => ({ ...prev, [field]: filteredValue }));
+    } 
+    else {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    }
+    
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: '' }));
     }
