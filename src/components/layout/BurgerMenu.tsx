@@ -234,37 +234,33 @@ function ActionFooter({
 export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) {
   const { locale } = useLocale();
   const menuRef = useRef<HTMLDivElement>(null);
+  const [isExiting, setIsExiting] = useState(false);
+
+  // Track exit state
+  useEffect(() => {
+    if (!isOpen) {
+      setIsExiting(true);
+      // Reset after animation completes
+      const timer = setTimeout(() => setIsExiting(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   // Scroll lock logic - robust implementation
   useEffect(() => {
     if (isOpen) {
-      const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
+      // Just hide overflow, don't change position to avoid scroll jump
       document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
       document.body.style.overflowX = 'hidden';
+      document.body.style.touchAction = 'none';
     } else {
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
+      // Restore scroll
       document.body.style.overflow = '';
       document.body.style.overflowX = '';
       document.body.style.touchAction = '';
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
     }
 
     return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
       document.body.style.overflow = '';
       document.body.style.overflowX = '';
       document.body.style.touchAction = '';
@@ -287,22 +283,29 @@ export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) 
     onClose();
   };
 
+  const handleClose = () => {
+    onClose();
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
         <>
           {/* Backdrop */}
           <motion.div
+            key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
             className="fixed inset-0 bg-medical-primary-900/50 backdrop-blur-sm z-[9998]"
-            onClick={onClose}
+            onClick={handleClose}
+            style={{ pointerEvents: isExiting ? 'none' : 'auto' }}
           />
 
           {/* Menu Panel */}
           <motion.div
+            key="menu"
             ref={menuRef}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -316,11 +319,12 @@ export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) 
             className="fixed top-0 right-0 h-[100dvh] w-full max-w-md bg-slate-50/98 backdrop-blur-md z-[9999] overflow-y-auto overflow-x-hidden -webkit-overflow-scrolling-touch transform-gpu"
             style={{
               willChange: 'transform, opacity',
+              pointerEvents: isExiting ? 'none' : 'auto',
             }}
           >
             <div className="flex flex-col min-h-full">
               {/* Header */}
-              <MenuHeader onClose={onClose} locale={locale} />
+              <MenuHeader onClose={handleClose} locale={locale} />
 
               {/* Navigation Links */}
               <nav className="flex-1 py-6">
