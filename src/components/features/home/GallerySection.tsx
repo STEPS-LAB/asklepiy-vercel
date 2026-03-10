@@ -2,7 +2,7 @@
 
 import { useLocale } from '@/contexts';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useRef, TouchEvent } from 'react';
 import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui';
 
@@ -21,6 +21,8 @@ export function GallerySection() {
   const { locale } = useLocale();
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [startIndex, setStartIndex] = useState(0);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
 
   const visibleImages = galleryImages.slice(startIndex, startIndex + VISIBLE_IMAGES);
 
@@ -34,6 +36,27 @@ export function GallerySection() {
 
   const canGoPrev = startIndex > 0;
   const canGoNext = startIndex < galleryImages.length - VISIBLE_IMAGES;
+
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0 && canGoNext) {
+        handleNext();
+      } else if (diff < 0 && canGoPrev) {
+        handlePrev();
+      }
+    }
+  };
 
   return (
     <section className="section bg-white">
@@ -56,7 +79,12 @@ export function GallerySection() {
 
         {/* Gallery Grid with Navigation */}
         <div className="relative">
-          <div className="grid grid-cols-3 gap-4">
+          <div 
+            className="grid grid-cols-3 gap-4"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             {visibleImages.map((image, index) => (
               <motion.div
                 key={image.id}
@@ -82,7 +110,7 @@ export function GallerySection() {
           </div>
 
           {/* Navigation Arrows */}
-          <div className="absolute -top-20 right-0 flex gap-2">
+          <div className="absolute -top-20 right-0 flex gap-2 max-md:hidden">
             <button
               onClick={handlePrev}
               disabled={!canGoPrev}
@@ -104,6 +132,32 @@ export function GallerySection() {
               }`}
             >
               <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="flex md:hidden justify-center gap-2 mt-6">
+            <button
+              onClick={handlePrev}
+              disabled={!canGoPrev}
+              className={`w-10 h-10 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
+                !canGoPrev
+                  ? 'opacity-30 cursor-not-allowed'
+                  : 'hover:bg-medical-accent-500 hover:text-white'
+              }`}
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={!canGoNext}
+              className={`w-10 h-10 rounded-full border-2 border-medical-accent-500 flex items-center justify-center transition-colors ${
+                !canGoNext
+                  ? 'opacity-30 cursor-not-allowed'
+                  : 'hover:bg-medical-accent-500 hover:text-white'
+              }`}
+            >
+              <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         </div>
