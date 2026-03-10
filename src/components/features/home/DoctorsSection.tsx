@@ -90,7 +90,7 @@ export function DoctorsSection() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {doctors.map((doctor, index) => (
+          {doctors.slice(0, locale === 'ua' ? 3 : doctors.length).map((doctor, index) => (
             <motion.div
               key={doctor.id}
               className="bg-white rounded-sm overflow-hidden shadow-medical-md hover:shadow-medical-lg transition-shadow"
