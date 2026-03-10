@@ -194,7 +194,7 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           error={error}
-          placeholder="+38 (0XX) XXX-XX-XX"
+          placeholder={locale === 'ua' ? 'Ваш номер телефону' : 'Your phone number'}
         />
       )}
 

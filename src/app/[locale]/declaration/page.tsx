@@ -212,7 +212,7 @@ export default function DeclarationPage() {
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   required
-                  placeholder="+38 (0XX) XXX-XX-XX"
+                  placeholder={locale === 'ua' ? 'Ваш номер телефону' : 'Your phone number'}
                 />
               </div>
 

@@ -322,7 +322,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 </label>
                 <Input
                   type="tel"
-                  placeholder="+380"
+                  placeholder={locale === 'ua' ? 'Ваш номер телефону' : 'Your phone number'}
                   value={formData.phone}
                   onChange={(e) => handleInputChange('phone', e.target.value)}
                   icon={<Phone className="w-5 h-5" />}

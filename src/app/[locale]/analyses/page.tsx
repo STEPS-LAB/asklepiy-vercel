@@ -568,7 +568,7 @@ function ServiceBookingModal({ isOpen, onClose, serviceName, serviceNameEn, pric
                           value={formData.phone}
                           onChange={(e) => handleInputChange('phone', e.target.value)}
                           error={errors.phone}
-                          placeholder="+38 (0XX) XXX-XX-XX"
+                          placeholder={locale === 'ua' ? 'Ваш номер телефону' : 'Your phone number'}
                         />
                       </div>
                       <div>
