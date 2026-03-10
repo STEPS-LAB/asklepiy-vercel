@@ -31,7 +31,6 @@ import {
   PartnersSection,
   StatisticsSection,
 } from '@/components/features/home';
-import { Header } from '@/components/layout';
 
 const services = [
   {
@@ -105,8 +104,6 @@ export default function HomePage() {
 
   return (
     <>
-      <Header />
-      
       {/* Hero Section */}
       <section
         className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-medical-primary-50 via-white to-medical-accent-50"
