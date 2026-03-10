@@ -7,7 +7,6 @@ import { Card, Button, Input } from '@/components/ui';
 import { useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { BookingModal } from '@/features/booking/BookingModal';
-import { CallbackSection } from '@/components/features/home/CallbackSection';
 
 // Main sections
 const serviceSections = [
