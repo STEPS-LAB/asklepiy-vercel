@@ -1,0 +1,1 @@
+export { MotionConfig } from './MotionConfig';

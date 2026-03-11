@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { MotionConfig } from '@/components/motion/MotionConfig';
 
 interface UIContextType {
   isModalOpen: boolean;
@@ -17,9 +18,11 @@ export function UIProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <UIContext.Provider value={{ isModalOpen, setModalOpen }}>
-      {children}
-    </UIContext.Provider>
+    <MotionConfig>
+      <UIContext.Provider value={{ isModalOpen, setModalOpen }}>
+        {children}
+      </UIContext.Provider>
+    </MotionConfig>
   );
 }
 
