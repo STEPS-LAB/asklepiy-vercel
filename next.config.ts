@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Enable tree-shaking for client bundles
+      config.optimization.usedExports = true;
+      config.optimization.sideEffects = true;
+    }
+    return config;
+  },
   async headers() {
     return [
       {

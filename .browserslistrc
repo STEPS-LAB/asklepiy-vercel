@@ -1,0 +1,4 @@
+# Modern browsers that support ES2020+ features
+# This prevents unnecessary transpilation and polyfills
+
+defaults, not IE 11, not op_mini all
