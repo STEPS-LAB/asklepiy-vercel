@@ -18,10 +18,6 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://asklepiy.com'),
-  title: {
-    default: 'Асклепій Клінік | Сучасна медицина в Україні',
-    template: '%s | Асклепій Клінік',
-  },
   description:
     'Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики. Сучасне обладнання та кваліфіковані лікарі.',
   keywords: [
@@ -52,22 +48,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'uk_UA',
     url: 'https://asklepiy.com',
-    title: 'Асклепій Клінік | Сучасна медицина в Україні',
+    title: 'Асклепій',
     description:
       'Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики.',
-    siteName: 'Асклепій Клінік',
+    siteName: 'Асклепій',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Асклепій Клінік',
+        alt: 'Асклепій',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Асклепій Клінік',
+    title: 'Асклепій',
     description: 'Сучасна медицина з турботою про вас',
     images: ['/og-image.jpg'],
   },
