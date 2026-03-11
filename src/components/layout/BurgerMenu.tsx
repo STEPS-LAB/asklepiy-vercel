@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -234,27 +234,14 @@ function ActionFooter({
 export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) {
   const { locale } = useLocale();
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isExiting, setIsExiting] = useState(false);
 
-  // Track exit state
-  useEffect(() => {
-    if (!isOpen) {
-      setIsExiting(true);
-      // Reset after animation completes
-      const timer = setTimeout(() => setIsExiting(false), 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen]);
-
-  // Scroll lock logic - robust implementation
+  // Scroll lock logic
   useEffect(() => {
     if (isOpen) {
-      // Just hide overflow, don't change position to avoid scroll jump
       document.body.style.overflow = 'hidden';
       document.body.style.overflowX = 'hidden';
       document.body.style.touchAction = 'none';
     } else {
-      // Restore scroll
       document.body.style.overflow = '';
       document.body.style.overflowX = '';
       document.body.style.touchAction = '';
@@ -283,29 +270,31 @@ export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) 
     onClose();
   };
 
-  const handleClose = () => {
-    onClose();
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Only close if clicking directly on backdrop (not on menu)
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop - use motion-safe pointer-events */}
           <motion.div
-            key="backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            key="burger-backdrop"
+            initial={{ opacity: 0, pointerEvents: 'none' }}
+            animate={{ opacity: 1, pointerEvents: 'auto' }}
+            exit={{ opacity: 0, pointerEvents: 'none' }}
+            transition={{ duration: 0.15 }}
             className="fixed inset-0 bg-medical-primary-900/50 backdrop-blur-sm z-[9998]"
-            onClick={handleClose}
-            style={{ pointerEvents: isExiting ? 'none' : 'auto' }}
+            onClick={handleBackdropClick}
           />
 
           {/* Menu Panel */}
           <motion.div
-            key="menu"
+            key="burger-menu"
             ref={menuRef}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -319,12 +308,11 @@ export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) 
             className="fixed top-0 right-0 h-[100dvh] w-full max-w-md bg-slate-50/98 backdrop-blur-md z-[9999] overflow-y-auto overflow-x-hidden -webkit-overflow-scrolling-touch transform-gpu"
             style={{
               willChange: 'transform, opacity',
-              pointerEvents: isExiting ? 'none' : 'auto',
             }}
           >
             <div className="flex flex-col min-h-full">
               {/* Header */}
-              <MenuHeader onClose={handleClose} locale={locale} />
+              <MenuHeader onClose={onClose} locale={locale} />
 
               {/* Navigation Links */}
               <nav className="flex-1 py-6">
