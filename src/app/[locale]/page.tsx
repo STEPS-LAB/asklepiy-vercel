@@ -4,6 +4,33 @@ import { useLocale } from '@/contexts';
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import {
+  ArrowRight,
+  Calendar,
+  Clock,
+  Shield,
+  Heart,
+  Stethoscope,
+  Microscope,
+  Users,
+  Award,
+  Phone
+} from 'lucide-react';
+import { Button, Card } from '@/components/ui';
+import { BookingModal } from '@/features/booking';
+import {
+  ProgramsBanner,
+  LaboratorySearch,
+  DoctorsSection,
+  TrustSection,
+  DeclarationSection,
+  GallerySection,
+  ReviewsSection,
+  NewsSection,
+  CallbackSection,
+  PartnersSection,
+  StatisticsSection,
+} from '@/components/features/home';
 
 const services = [
   {
