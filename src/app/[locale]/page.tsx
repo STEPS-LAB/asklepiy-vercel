@@ -1,7 +1,6 @@
 'use client';
 
 import { useLocale } from '@/contexts';
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -108,67 +107,33 @@ export default function HomePage() {
       <section
         className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-medical-primary-50 via-white to-medical-accent-50"
       >
-        {/* Background Pattern - static for better iOS performance */}
+        {/* Background Pattern - static */}
         <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.3, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.2 }}
-            className="absolute top-20 right-0 w-96 h-96 bg-medical-accent-200 rounded-full blur-3xl"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 0.3, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.4 }}
-            className="absolute bottom-0 left-0 w-72 h-72 bg-medical-primary-200 rounded-full blur-3xl"
-          />
+          <div className="absolute top-20 right-0 w-96 h-96 bg-medical-accent-200 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-medical-primary-200 rounded-full blur-3xl" />
         </div>
 
         <div className="container mx-auto px-4 pt-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Content - no scroll-based animations to avoid conflicts */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="inline-block px-4 py-2 bg-medical-accent-100 text-medical-accent-700 rounded-sm text-sm font-medium mb-6"
-              >
+            {/* Content */}
+            <div>
+              <span className="inline-block px-4 py-2 bg-medical-accent-100 text-medical-accent-700 rounded-sm text-sm font-medium mb-6">
                 {locale === 'ua' ? 'Провідний медичний центр України' : 'Leading medical center of Ukraine'}
-              </motion.span>
+              </span>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="font-secondary text-4xl md:text-5xl lg:text-6xl font-medium text-medical-primary-900 leading-tight mb-6"
-              >
+              <h1 className="font-secondary text-4xl md:text-5xl lg:text-6xl font-medium text-medical-primary-900 leading-tight mb-6">
                 {locale === 'ua'
                   ? 'Сучасна медицина з турботою про вас'
                   : 'Modern Medicine with Care for You'}
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="text-lg text-medical-text-secondary mb-8 max-w-xl"
-              >
+              <p className="text-lg text-medical-text-secondary mb-8 max-w-xl">
                 {locale === 'ua'
                   ? 'Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики'
                   : "Ukraine's leading private clinic with innovative approaches to treatment and diagnostics"}
-              </motion.p>
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-                className="flex flex-wrap gap-4"
-              >
+              <div className="flex flex-wrap gap-4">
                 <Button size="lg" rightIcon={<ArrowRight className="w-4 h-4" />} onClick={() => setIsBookingOpen(true)}>
                   {locale === 'ua' ? 'Записатися на прийом' : 'Book Appointment'}
                 </Button>
@@ -177,34 +142,19 @@ export default function HomePage() {
                     {locale === 'ua' ? 'Зателефонувати' : 'Call Now'}
                   </Button>
                 </a>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
-            {/* Hero Image - static for better iOS performance */}
+            {/* Hero Image */}
             <div className="relative hidden lg:block flex items-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="relative z-10 rounded-sm overflow-hidden shadow-medical-xl max-w-[85%] ml-auto w-full"
-              >
+              <div className="relative z-10 rounded-sm overflow-hidden shadow-medical-xl max-w-[85%] ml-auto w-full">
                 <div className="aspect-[4/5] bg-gradient-to-br from-medical-primary-200 to-medical-accent-200 flex items-center justify-center">
                   <Stethoscope className="w-28 h-28 text-medical-primary-900/20" />
                 </div>
-              </motion.div>
+              </div>
               {/* Decorative elements */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.4 }}
-                className="absolute -top-4 -right-4 w-full h-full bg-medical-accent-100 rounded-sm -z-10"
-              />
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, delay: 0.5 }}
-                className="absolute -bottom-4 -left-4 w-3/4 h-3/4 bg-medical-primary-100 rounded-sm -z-10"
-              />
+              <div className="absolute -top-4 -right-4 w-full h-full bg-medical-accent-100 rounded-sm -z-10" />
+              <div className="absolute -bottom-4 -left-4 w-3/4 h-3/4 bg-medical-primary-100 rounded-sm -z-10" />
             </div>
           </div>
         </div>
