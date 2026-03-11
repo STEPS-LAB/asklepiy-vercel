@@ -225,7 +225,7 @@ export default function ContactsPage() {
           <h2 className="text-xl font-medium text-medical-primary-900 mb-6">
             {locale === 'ua' ? 'Написати нам' : 'Send us a message'}
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <Input
               label={locale === 'ua' ? 'Ваше ім\'я' : 'Your name'}
               placeholder={locale === 'ua' ? 'Прізвище Імʼя' : 'Surname Name'}
@@ -254,7 +254,7 @@ export default function ContactsPage() {
                 required
               />
             </div>
-            <Button type="submit" isLoading={isSubmitting} className="!w-full" leftIcon={<MessageCircle className="w-4 h-4" />}>
+            <Button type="submit" isLoading={isSubmitting} className="w-full" leftIcon={<MessageCircle className="w-4 h-4" />}>
               {isSuccess
                 ? locale === 'ua'
                   ? 'Повідомлення відправлено!'

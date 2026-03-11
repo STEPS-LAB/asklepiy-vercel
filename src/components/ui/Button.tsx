@@ -78,7 +78,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <motion.div
-        className="inline-block"
+        className={cn('inline-block', className?.includes('w-full') && 'w-full')}
         variants={buttonHoverVariants}
         initial="rest"
         whileHover={!isLoading && !disabled ? 'hover' : undefined}
