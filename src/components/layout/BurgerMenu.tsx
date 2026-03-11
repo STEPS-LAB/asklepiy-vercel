@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -211,6 +211,10 @@ function ActionFooter({
   onOpenBooking?: () => void;
   locale: string;
 }) {
+  const handleClick = useCallback(() => {
+    onOpenBooking?.();
+  }, [onOpenBooking]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -221,8 +225,8 @@ function ActionFooter({
     >
       <Button
         size="lg"
-        className="w-full bg-[#003d6b] hover:bg-[#002f55] text-white font-medium text-lg py-4 rounded-lg shadow-medical-lg transition-all hover:shadow-medical-xl pb-[max(1rem,env(safe-area-inset-bottom))]"
-        onClick={onOpenBooking}
+        className="w-full bg-[#003d6b] hover:bg-[#002f55] text-white font-medium text-lg py-4 rounded-lg shadow-medical-lg transition-all hover:shadow-medical-xl pb-[max(1rem,env(safe-area-inset-bottom))] pointer-events-auto"
+        onClick={handleClick}
       >
         {locale === 'ua' ? 'Записатися на прийом' : 'Book Appointment'}
       </Button>
@@ -281,12 +285,12 @@ export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) 
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop - use motion-safe pointer-events */}
+          {/* Backdrop */}
           <motion.div
             key="burger-backdrop"
-            initial={{ opacity: 0, pointerEvents: 'none' }}
-            animate={{ opacity: 1, pointerEvents: 'auto' }}
-            exit={{ opacity: 0, pointerEvents: 'none' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
             className="fixed inset-0 bg-medical-primary-900/50 backdrop-blur-sm"
             style={{ zIndex: 99998 }}
