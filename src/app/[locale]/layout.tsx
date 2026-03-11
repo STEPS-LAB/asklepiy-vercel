@@ -3,20 +3,38 @@ import { getLocale, getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ReactQueryProvider, LocaleProvider, AuthProvider, UIProvider } from '@/contexts';
 import { LayoutContent } from '@/components/layout';
-import { PageTitle } from './PageTitle';
+import type { Metadata } from 'next';
 import '../../styles/globals.css';
 
 export function generateStaticParams() {
   return [{ locale: 'ua' }, { locale: 'en' }];
 }
 
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  
+  return {
+    title: {
+      default: locale === 'ua' 
+        ? 'Асклепій | Сучасна медицина з турботою про вас' 
+        : 'Asklepiy | Modern Medicine with Care for You',
+      template: locale === 'ua' ? '%s | Асклепій' : '%s | Asklepiy',
+    },
+    description: locale === 'ua'
+      ? 'Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики.'
+      : "Ukraine's leading private clinic with innovative approaches to treatment and diagnostics.",
+  };
+}
+
 export default async function LocaleLayout({
   children,
   params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+}: Props) {
   const { locale: urlLocale } = await params;
 
   // Validate that the incoming `locale` parameter is valid
@@ -30,16 +48,12 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className="scroll-smooth antialiased" suppressHydrationWarning>
-      <head>
-        <meta name="description" content="Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики." />
-      </head>
       <body className="min-h-screen flex flex-col overflow-x-hidden">
         <NextIntlClientProvider messages={messages}>
           <ReactQueryProvider>
             <LocaleProvider initialLocale={locale}>
               <AuthProvider>
                 <UIProvider>
-                  <PageTitle />
                   <LayoutContent>{children}</LayoutContent>
                 </UIProvider>
               </AuthProvider>

@@ -18,6 +18,10 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://asklepiy.com'),
+  title: {
+    default: 'Асклепій | Сучасна медицина з турботою про вас',
+    template: '%s | Асклепій',
+  },
   description:
     'Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики. Сучасне обладнання та кваліфіковані лікарі.',
   keywords: [
@@ -82,11 +86,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ua" className="scroll-smooth antialiased" suppressHydrationWarning>
-      <body className={`${inter.variable} ${montserrat.variable}`}>
-        {children}
-      </body>
-    </html>
-  );
+  return children;
 }
