@@ -90,7 +90,7 @@ export function Modal({
           {/* Backdrop with blur */}
           <motion.div
             className="fixed inset-0 bg-medical-primary-900/60 backdrop-blur-md"
-            style={{ zIndex: 99998 }}
+            style={{ zIndex: 100000 }}
             variants={backdropVariants}
             initial="hidden"
             animate="visible"
@@ -100,7 +100,7 @@ export function Modal({
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 99999 }}>
+          <div className="fixed inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 100001 }}>
             <motion.div
               className={cn(
                 'w-full mx-4 bg-white rounded-sm shadow-medical-xl overflow-hidden pointer-events-auto',
@@ -199,13 +199,13 @@ export function ModalSlideUp({
         <>
           <motion.div
             className="fixed inset-0 bg-medical-primary-900/60 backdrop-blur-md"
-            style={{ zIndex: 99998 }}
+            style={{ zIndex: 100000 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
-          <div className="fixed inset-x-0 bottom-0" style={{ zIndex: 99999 }}>
+          <div className="fixed inset-x-0 bottom-0" style={{ zIndex: 100001 }}>
             <motion.div
               className={cn(
                 'bg-white rounded-t-sm shadow-medical-xl max-h-[90vh] overflow-y-auto',
@@ -277,7 +277,7 @@ export function ModalSidePanel({
         <>
           <motion.div
             className="fixed inset-0 bg-medical-primary-900/60 backdrop-blur-md"
-            style={{ zIndex: 99998 }}
+            style={{ zIndex: 100000 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -289,7 +289,7 @@ export function ModalSidePanel({
               position === 'right' ? 'right-0' : 'left-0',
               widthClasses[width]
             )}
-            style={{ zIndex: 99999 }}
+            style={{ zIndex: 100001 }}
             variants={sidePanelVariants}
             initial="hidden"
             animate="visible"

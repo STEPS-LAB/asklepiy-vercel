@@ -77,7 +77,7 @@ export function Header({ onOpenBooking }: HeaderProps) {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className={cn(
-          'fixed top-0 left-0 right-0 z-overlay transition-all duration-500 h-[80px]',
+          'fixed top-0 left-0 right-0 z-sticky transition-all duration-500 h-[80px]',
           isScrolled ? 'glass shadow-medical-md' : 'bg-transparent'
         )}
       >
