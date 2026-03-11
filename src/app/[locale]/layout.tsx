@@ -3,6 +3,7 @@ import { getLocale, getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ReactQueryProvider, LocaleProvider, AuthProvider, UIProvider } from '@/contexts';
 import { LayoutContent } from '@/components/layout';
+import { PageTitle } from './PageTitle';
 import '../../styles/globals.css';
 
 export function generateStaticParams() {
@@ -28,18 +29,24 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <ReactQueryProvider>
-        <LocaleProvider initialLocale={locale}>
-          <AuthProvider>
-            <UIProvider>
-              <div className="min-h-screen flex flex-col overflow-x-hidden">
-                <LayoutContent>{children}</LayoutContent>
-              </div>
-            </UIProvider>
-          </AuthProvider>
-        </LocaleProvider>
-      </ReactQueryProvider>
-    </NextIntlClientProvider>
+    <html lang={locale} className="scroll-smooth antialiased" suppressHydrationWarning>
+      <head>
+        <meta name="description" content="Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики." />
+      </head>
+      <body className="min-h-screen flex flex-col overflow-x-hidden">
+        <NextIntlClientProvider messages={messages}>
+          <ReactQueryProvider>
+            <LocaleProvider initialLocale={locale}>
+              <AuthProvider>
+                <UIProvider>
+                  <PageTitle />
+                  <LayoutContent>{children}</LayoutContent>
+                </UIProvider>
+              </AuthProvider>
+            </LocaleProvider>
+          </ReactQueryProvider>
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }

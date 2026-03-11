@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useLocale, useAuth } from '@/contexts';
 import { motion } from 'framer-motion';
-import { 
-  User, 
-  Users, 
-  Calendar, 
-  FileText, 
-  Clock, 
+import {
+  User,
+  Users,
+  Calendar,
+  FileText,
+  Clock,
   ChevronRight,
   Plus,
   Download,
