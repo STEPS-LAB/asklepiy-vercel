@@ -107,51 +107,35 @@ export function GallerySection() {
 
         {/* Gallery Grid with Navigation */}
         <div className="relative">
+          {/* Gallery Grid */}
           <div
-            className="grid grid-cols-3 gap-4 overflow-hidden"
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <AnimatePresence initial={false} custom={slideDirection}>
+            {visibleImages.map((image, index) => (
               <motion.div
-                key={startIndex}
-                className="grid grid-cols-3 gap-4 w-full"
-                custom={slideDirection}
-                variants={sliderVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: 'spring', stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.3 },
-                }}
-                style={{ willChange: 'transform, opacity' }}
+                key={image.id}
+                className="relative group cursor-pointer overflow-hidden rounded-sm"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.08, duration: 0.3 }}
+                onClick={() => setSelectedImage(image.id)}
+                whileHover={{ scale: 1.02 }}
               >
-                {visibleImages.map((image, index) => (
-                  <motion.div
-                    key={image.id}
-                    className="relative group cursor-pointer overflow-hidden rounded-sm"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.08, duration: 0.3 }}
-                    onClick={() => setSelectedImage(image.id)}
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <div className={`aspect-square bg-gradient-to-br ${image.color} flex items-center justify-center`}>
-                      <Maximize2 className="w-12 h-12 text-medical-primary-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
+                <div className={`aspect-square bg-gradient-to-br ${image.color} flex items-center justify-center`}>
+                  <Maximize2 className="w-12 h-12 text-medical-primary-900/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
 
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-medical-primary-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-                      <span className="text-white text-sm font-medium">
-                        {locale === 'ua' ? image.alt.ua : image.alt.en}
-                      </span>
-                    </div>
-                  </motion.div>
-                ))}
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-medical-primary-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                  <span className="text-white text-sm font-medium">
+                    {locale === 'ua' ? image.alt.ua : image.alt.en}
+                  </span>
+                </div>
               </motion.div>
-            </AnimatePresence>
+            ))}
           </div>
 
           {/* Navigation Arrows */}

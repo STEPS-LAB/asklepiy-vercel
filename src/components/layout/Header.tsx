@@ -76,9 +76,10 @@ export function Header({ onOpenBooking }: HeaderProps) {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
+        style={{ zIndex: 99995 }}
         className={cn(
-          'fixed top-0 left-0 right-0 z-sticky transition-all duration-500 h-[80px]',
-          isScrolled ? 'glass shadow-medical-md' : 'bg-transparent'
+          'fixed top-0 left-0 right-0 transition-all duration-500 h-[80px] bg-white',
+          isScrolled ? 'glass shadow-medical-md' : 'shadow-sm'
         )}
       >
         <div className="container mx-auto px-4 h-full">
