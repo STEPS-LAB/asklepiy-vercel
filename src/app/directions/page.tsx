@@ -1,7 +1,6 @@
 'use client';
 
 import { useLocale } from '@/contexts';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -178,23 +177,27 @@ export default function DirectionsPage() {
   const { locale } = useLocale();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<DepartmentTab>('adult');
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [prevTab, setPrevTab] = useState<DepartmentTab>('adult');
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '') as DepartmentTab;
     if (hash && ['adult', 'children', 'diagnostics', 'laboratory', 'checkups', 'surgery'].includes(hash)) {
       setActiveTab(hash);
+      setPrevTab(hash);
     }
   }, []);
+
+  const handleTabChange = (tab: DepartmentTab) => {
+    if (tab === activeTab) return;
+    setActiveTab(tab);
+  };
 
   const activeDepartment = departments.find((d) => d.id === activeTab) || departments[0];
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
+      <div className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-secondary font-medium text-medical-primary-900 mb-4">
           {locale === 'ua' ? 'Напрямки' : 'Directions'}
         </h1>
@@ -203,7 +206,7 @@ export default function DirectionsPage() {
             ? 'Комплексний підхід до вашого здоров\'я'
             : 'Comprehensive approach to your health'}
         </p>
-      </motion.div>
+      </div>
 
       {/* Department Tabs */}
       <div className="mb-8">
@@ -212,9 +215,9 @@ export default function DirectionsPage() {
             const Icon = dept.icon;
             const isActive = activeTab === dept.id;
             return (
-              <motion.button
+              <button
                 key={dept.id}
-                onClick={() => setActiveTab(dept.id)}
+                onClick={() => handleTabChange(dept.id)}
                 className={cn(
                   'flex items-center justify-center gap-2 px-3 py-4 rounded-sm text-sm font-medium transition-all',
                   'w-full h-full',
@@ -222,28 +225,19 @@ export default function DirectionsPage() {
                     ? 'bg-medical-primary-900 text-white shadow-medical-md font-semibold'
                     : 'bg-medical-surface-100 text-medical-text-secondary hover:bg-medical-surface-200 hover:font-semibold'
                 )}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
               >
                 <Icon className={cn('w-6 h-6 flex-shrink-0', isActive ? 'text-white' : 'text-medical-accent-600')} />
                 <span className="text-center whitespace-normal leading-tight">
                   {locale === 'ua' ? dept.title.ua : dept.title.en}
                 </span>
-              </motion.button>
+              </button>
             );
           })}
         </div>
 
         {/* Services Grid */}
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="w-full"
-          >
+        <div className="w-full">
+          <div>
             <div className="mb-6">
               <h2 className="text-xl font-medium text-medical-primary-900 bg-medical-primary-900/10 inline-block px-4 py-2 rounded-sm">
                 {locale === 'ua' ? activeDepartment.subtitle.ua : activeDepartment.subtitle.en}
@@ -251,27 +245,22 @@ export default function DirectionsPage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {activeDepartment.services.map((service, index) => (
+              {activeDepartment.services.map((service) => (
                 <Link
                   key={locale === 'ua' ? service.ua : service.en}
                   href="/way/hastroenterolohiya"
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.03, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                    className="flex items-center gap-3 p-3 rounded-sm hover:bg-medical-surface-100 transition-all duration-300 cursor-pointer group"
-                  >
+                  <div className="flex items-center gap-3 p-3 rounded-sm hover:bg-medical-surface-100 transition-all duration-300 cursor-pointer group">
                     <div className="w-2 h-2 bg-medical-accent-400 rounded-full flex-shrink-0 group-hover:bg-medical-accent-600 transition-all duration-300" />
                     <span className="text-medical-text-secondary group-hover:text-medical-primary-900 group-hover:font-semibold transition-all duration-300">
                       {locale === 'ua' ? service.ua : service.en}
                     </span>
-                  </motion.div>
+                  </div>
                 </Link>
               ))}
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
       </div>
     </div>
   );

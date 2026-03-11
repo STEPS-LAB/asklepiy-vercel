@@ -908,20 +908,16 @@ export default function ServicesPage() {
       </div>
 
       {/* Service Sections */}
-      <motion.div
-        layout
-        transition={{ duration: 0.3 }}
-        className="space-y-4"
-      >
+      <div className="space-y-4">
         {serviceSections.map((section, index) => {
           const sectionData = pricingData[section.id];
 
           return (
             <motion.div
               key={section.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
+              transition={{ delay: index * 0.05, duration: 0.3 }}
             >
               <Card className="overflow-hidden">
                 {/* Section Header */}
@@ -948,42 +944,45 @@ export default function ServicesPage() {
                 </button>
 
                 {/* Section Content */}
-                {expandedSection === section.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="border-t border-medical-surface-200"
-                  >
-                    <div className="p-6">
-                      {/* Categories Grid */}
-                      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
-                        {sectionData && Object.keys(sectionData).map((category) => (
-                          <button
-                            key={category}
-                            onClick={() => selectCategory(category)}
-                            className={cn(
-                              'px-4 py-2.5 text-left text-sm rounded-sm transition-colors',
-                              selectedCategory === category
-                                ? 'bg-medical-accent-600 text-white font-medium'
-                                : 'bg-medical-surface-50 text-medical-text-primary hover:bg-medical-surface-100'
-                            )}
-                          >
-                            {categoryNames[category] ? (locale === 'ua' ? categoryNames[category].ua : categoryNames[category].en) : category}
-                          </button>
-                        ))}
-                      </div>
+                <AnimatePresence>
+                  {expandedSection === section.id && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className="overflow-hidden border-t border-medical-surface-200"
+                    >
+                      <div className="p-6">
+                        {/* Categories Grid */}
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 mb-6">
+                          {sectionData && Object.keys(sectionData).map((category) => (
+                            <button
+                              key={category}
+                              onClick={() => selectCategory(category)}
+                              className={cn(
+                                'px-4 py-2.5 text-left text-sm rounded-sm transition-colors',
+                                selectedCategory === category
+                                  ? 'bg-medical-accent-600 text-white font-medium'
+                                  : 'bg-medical-surface-50 text-medical-text-primary hover:bg-medical-surface-100'
+                              )}
+                            >
+                              {categoryNames[category] ? (locale === 'ua' ? categoryNames[category].ua : categoryNames[category].en) : category}
+                            </button>
+                          ))}
+                        </div>
 
-                      {/* Service Tables */}
-                      {renderSectionContent(section.id)}
-                    </div>
-                  </motion.div>
-                )}
+                        {/* Service Tables */}
+                        {renderSectionContent(section.id)}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </Card>
             </motion.div>
           );
         })}
-      </motion.div>
+      </div>
 
       {/* Booking Modal */}
       <ServiceBookingModal
