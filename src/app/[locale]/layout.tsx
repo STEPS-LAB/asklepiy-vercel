@@ -19,12 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   
   return {
-    title: {
-      default: locale === 'ua' 
-        ? 'Асклепій | Сучасна медицина з турботою про вас' 
-        : 'Asklepiy | Modern Medicine with Care for You',
-      template: locale === 'ua' ? '%s | Асклепій' : '%s | Asklepiy',
-    },
+    title: locale === 'ua' 
+      ? 'Асклепій | Сучасна медицина з турботою про вас' 
+      : 'Asklepiy | Modern Medicine with Care for You',
     description: locale === 'ua'
       ? 'Провідний приватний медичний центр України з інноваційними підходами до лікування та діагностики.'
       : "Ukraine's leading private clinic with innovative approaches to treatment and diagnostics.",
@@ -37,12 +34,10 @@ export default async function LocaleLayout({
 }: Props) {
   const { locale: urlLocale } = await params;
 
-  // Validate that the incoming `locale` parameter is valid
   if (!['ua', 'en'].includes(urlLocale)) {
     notFound();
   }
 
-  // Use getLocale which respects our i18n config (cookie > URL > default)
   const locale = await getLocale() as 'ua' | 'en';
   const messages = await getMessages();
 
