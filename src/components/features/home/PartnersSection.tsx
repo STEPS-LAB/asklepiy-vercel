@@ -40,18 +40,18 @@ export function PartnersSection() {
           {partners.map((partner, index) => (
             <motion.div
               key={partner.id}
-              className="flex items-center justify-center p-6 bg-medical-surface-50 rounded-sm hover:bg-medical-accent-50 transition-colors"
+              className="relative flex flex-col items-center justify-end p-6 bg-medical-surface-50 rounded-sm hover:bg-medical-accent-50 transition-colors min-h-[180px]"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05, duration: 0.3 }}
               whileHover={{ scale: 1.05 }}
             >
-              <div className="text-center">
-                <Building2 className="w-12 h-12 text-medical-accent-400 mx-auto mb-2" />
-                <span className="text-sm font-medium text-medical-text-secondary">
-                  {locale === 'ua' ? partner.name : partner.nameEn}
-                </span>
+              <div className="absolute top-6 left-1/2 -translate-x-1/2">
+                <Building2 className="w-12 h-12 text-medical-accent-400" />
               </div>
+              <span className="text-sm font-medium text-medical-text-secondary text-center">
+                {locale === 'ua' ? partner.name : partner.nameEn}
+              </span>
             </motion.div>
           ))}
         </div>
