@@ -65,9 +65,15 @@ const doctors = [
   },
 ];
 
+// Mobile always shows 3 doctors, desktop shows all 6
+const MOBILE_DOCTORS_COUNT = 3;
+
 export function DoctorsSection({ showTitleOnly, title }: { showTitleOnly?: boolean; title?: string }) {
   const { locale } = useLocale();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  
+  // Show only 3 doctors on mobile (all languages)
+  const displayedDoctors = doctors.slice(0, MOBILE_DOCTORS_COUNT);
 
   return (
     <>
@@ -100,8 +106,9 @@ export function DoctorsSection({ showTitleOnly, title }: { showTitleOnly?: boole
           </motion.div>
         )}
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {doctors.slice(0, locale === 'ua' ? 3 : doctors.length).map((doctor, index) => (
+        {/* Doctors Grid - Mobile: 1 column, Tablet: 2 columns, Desktop: 3 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayedDoctors.map((doctor, index) => (
             <motion.div
               key={doctor.id}
               className="bg-white rounded-sm overflow-hidden shadow-medical-md hover:shadow-medical-lg transition-shadow"
@@ -159,6 +166,7 @@ export function DoctorsSection({ showTitleOnly, title }: { showTitleOnly?: boole
           ))}
         </div>
 
+        {/* All Doctors Button - Below the cards */}
         <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0 }}
