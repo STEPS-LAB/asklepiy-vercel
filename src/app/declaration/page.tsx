@@ -68,7 +68,7 @@ export default function DeclarationPage() {
 
   return (
     <>
-      <div className="container mx-auto px-4" style={{ marginTop: '-80px', paddingTop: '0' }}>
+      <div className="container mx-auto px-4 pt-20">
         <motion.div
           className="text-center mb-8"
           initial={{ opacity: 0, y: 30 }}
