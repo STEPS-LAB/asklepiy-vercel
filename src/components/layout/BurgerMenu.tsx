@@ -60,17 +60,22 @@ function MenuHeader({ onClose, locale }: { onClose: () => void; locale: string }
 function NavLink({
   href,
   label,
-  onClick,
+  onNavigate,
 }: {
   href: string;
   label: string;
-  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  onNavigate: (href: string) => void;
 }) {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    onNavigate(href);
+  };
+
   return (
     <div>
       <Link
         href={href}
-        onClick={onClick}
+        onClick={handleClick}
         className="flex items-center justify-between px-6 py-5 text-medical-primary-900 font-medium text-lg hover:bg-medical-surface-100/50 rounded-lg mx-4 transition-colors group"
       >
         <span>{label}</span>
@@ -240,14 +245,11 @@ export function BurgerMenu({ isOpen, onClose, onOpenBooking }: BurgerMenuProps) 
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleNavClick = (href: string) => {
     // Scroll to top immediately
     window.scrollTo(0, 0);
     onClose();
     // Navigate after a short delay to ensure scroll happens
-    const href = e.currentTarget.href;
-    // Use requestAnimationFrame to ensure scroll is processed
     requestAnimationFrame(() => {
       window.location.href = href;
     });
