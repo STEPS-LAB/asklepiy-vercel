@@ -139,7 +139,7 @@ export default function AsklepiyRodynaPage() {
               <Button
                 size="lg"
                 rightIcon={<ArrowRight className="w-4 h-4" />}
-                onClick={() => window.location.href = '#declaration'}
+                onClick={() => window.location.href = '/declaration'}
                 className="w-full sm:flex-1"
               >
                 {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
@@ -209,7 +209,7 @@ export default function AsklepiyRodynaPage() {
                 ))}
               </ul>
               <div className="mt-auto text-center">
-                <Button variant="secondary" onClick={() => window.location.href = '#declaration'}>
+                <Button variant="secondary" onClick={() => window.location.href = '/declaration'}>
                   {locale === 'ua' ? 'Заключити декларацію' : 'Sign Declaration'}
                 </Button>
               </div>
