@@ -36,9 +36,22 @@ const workingHours = {
 
 // Menu Header Component
 function MenuHeader({ onClose, locale }: { onClose: () => void; locale: string }) {
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.scrollTo(0, 0);
+    onClose();
+    requestAnimationFrame(() => {
+      window.location.href = '/';
+    });
+  };
+
   return (
     <div className="flex items-center justify-between px-6 h-[80px] border-b border-medical-surface-200/50">
-      <Link href="/" className="group">
+      <Link
+        href="/"
+        onClick={handleLogoClick}
+        className="group"
+      >
         <div className="relative w-[195px] h-[104px]">
           <Image
             src="/images/logo.webp"
