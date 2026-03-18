@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { X, ChevronRight, Phone, Clock, Mail } from 'lucide-react';
 import { useLocale } from '@/contexts';
 import { Button } from '@/components/ui';
+import Image from 'next/image';
 
 interface BurgerMenuProps {
   isOpen: boolean;
@@ -36,15 +37,18 @@ const workingHours = {
 // Menu Header Component
 function MenuHeader({ onClose, locale }: { onClose: () => void; locale: string }) {
   return (
-    <div className="flex items-center justify-between px-6 py-5 border-b border-medical-surface-200/50">
-      <div className="flex flex-col">
-        <span className="text-medical-primary-900 font-secondary text-xl font-medium">
-          {locale === 'ua' ? 'Асклепій' : 'Asklepiy'}
-        </span>
-        <span className="text-medical-text-tertiary text-sm mt-0.5">
-          {locale === 'ua' ? 'Медичний центр' : 'Medical Center'}
-        </span>
-      </div>
+    <div className="flex items-center justify-between px-6 h-[80px] border-b border-medical-surface-200/50">
+      <Link href="/" className="group">
+        <div className="relative w-[195px] h-[104px]">
+          <Image
+            src="/images/logo.webp"
+            alt={locale === 'ua' ? 'Асклепій' : 'Asklepiy'}
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
+      </Link>
       <button
         onClick={onClose}
         className="p-2 text-medical-text-secondary hover:text-medical-primary-900 transition-colors"

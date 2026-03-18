@@ -83,8 +83,8 @@ export function Footer() {
                   src="/images/logo.webp"
                   alt={locale === 'ua' ? 'Асклепій' : 'Asklepiy'}
                   fill
-                  className="object-contain invert brightness-0 saturate-0"
-                  style={{ filter: 'invert(100%) brightness(200%)' }}
+                  className="object-contain"
+                  style={{ filter: 'brightness(0) invert(1)' }}
                 />
               </div>
             </Link>
