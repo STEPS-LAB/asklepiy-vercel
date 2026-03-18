@@ -67,31 +67,25 @@ export function Footer() {
 
   return (
     <footer className="bg-gradient-to-br from-medical-primary-900 to-medical-primary-800 text-white">
-      <div className="container mx-auto px-4 py-16 lg:py-20">
+      <div className="container mx-auto px-4 py-6 lg:py-8">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10"
           variants={staggerContainerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
         >
           {/* Brand */}
-          <motion.div className="lg:col-span-2" variants={fadeInUpVariants}>
-            <Link href="/" className="flex items-center gap-4 mb-6 group">
-              <motion.div
-                className="w-12 h-12 bg-white rounded-sm flex items-center justify-center"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              >
-                <span className="text-medical-primary-900 font-semibold text-xl">A</span>
-              </motion.div>
-              <div>
-                <span className="block font-secondary font-medium text-xl">
-                  {locale === 'ua' ? 'Асклепій' : 'Asklepiy'}
-                </span>
-                <span className="block text-medical-surface-300 text-sm tracking-wide">
-                  {locale === 'ua' ? 'Медичний центр' : 'Medical Center'}
-                </span>
+          <motion.div className="lg:col-span-2 flex flex-col justify-center" variants={fadeInUpVariants}>
+            <Link href="/" className="group">
+              <div className="relative w-[195px] h-[104px]">
+                <Image
+                  src="/images/logo.webp"
+                  alt={locale === 'ua' ? 'Асклепій' : 'Asklepiy'}
+                  fill
+                  className="object-contain invert brightness-0 saturate-0"
+                  style={{ filter: 'invert(100%) brightness(200%)' }}
+                />
               </div>
             </Link>
             <p className="text-medical-surface-300 mb-6 max-w-sm font-light leading-relaxed">

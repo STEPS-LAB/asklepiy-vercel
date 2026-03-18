@@ -464,7 +464,7 @@ export default function AsklepiyRodynaPage() {
                   </div>
 
                   <Button type="submit" size="lg" className="w-full">
-                    {locale === 'ua' ? 'Укласти декларацію' : 'Sign Declaration'}
+                    {locale === 'ua' ? 'Надіслати повідомлення' : 'Send Message'}
                   </Button>
                 </form>
               )}
